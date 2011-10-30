@@ -80,4 +80,11 @@ class TemplatesController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  def upload
+    puts '-' * 60
+    puts request.content_length
+    puts params[:template_file]
+#    puts params[:template_file].content_type
+  end
 end

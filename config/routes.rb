@@ -8,6 +8,8 @@ ZxTemplateEngine::Application.routes.draw do
   get "consumer/start"
   get "consumer/complete"
 
+  post 'templates/upload'
+
   root :to => 'home#index'
 
   # The priority is based upon order of creation:
