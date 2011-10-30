@@ -85,6 +85,13 @@ class TemplatesController < ApplicationController
     puts '-' * 60
     puts request.content_length
     puts params[:template_file]
+    puts params[:template_file].path
+    tmpfile =  params[:template_file].path
+    /.*\/(.*)/ =~ tmpfile
+    uploaded_file = ::Rails.root.to_s + '/zx_template/' + $1
+    puts uploaded_file
+
+    FileUtils.mv tmpfile, uploaded_file
 #    puts params[:template_file].content_type
   end
 end
