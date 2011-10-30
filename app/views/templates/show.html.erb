@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Filename:</b>
+  <%= @template.filename %>
+</p>
+
+<p>
+  <b>Identifier:</b>
+  <%= @template.identifier %>
+</p>
+
+<p>
+  <b>Memo:</b>
+  <%= @template.memo %>
+</p>
+
+
+<%= link_to 'Edit', edit_template_path(@template) %> |
+<%= link_to 'Back', templates_path %>
