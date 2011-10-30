@@ -2,7 +2,6 @@
 
 <%= render 'form' %>
 
-<%= csrf_meta_tag %>
 <hr/>
 <form action="<%= url_for :action => 'upload' %>" method="POST" enctype="multipart/form-data">
 <input type="file" name="template_file"/>
