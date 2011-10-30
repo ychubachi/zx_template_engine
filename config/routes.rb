@@ -1,6 +1,10 @@
 ZxTemplateEngine::Application.routes.draw do
+  get "consumer/index"
+  get "consumer/start"
+  get "consumer/complete"
+  root :to => 'consumer#index'
+
   get "hello/index"
-  root :to => 'hello#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
