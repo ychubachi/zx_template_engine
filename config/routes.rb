@@ -1,5 +1,6 @@
 ZxTemplateEngine::Application.routes.draw do
   get "home/index"
+  get "home/logout"
 
   get "consumer/index"
   get "consumer/start"

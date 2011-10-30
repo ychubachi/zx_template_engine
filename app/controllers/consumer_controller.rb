@@ -69,9 +69,10 @@ class ConsumerController < ApplicationController
   end
 
   def complete
-    # FIXME - url_for some action is not necessarily the current URL.
+    puts '-' * 60
+    session['user'] = {}
+
     current_url = url_for(:action => 'complete', :only_path => false)
-#    parameters = params.reject{|k,v|request.path_parameters[k]} # <- DOSEN'T WORK 'controller = null'
     parameters = params;		# by yc
     parameters.delete('controller');	# by yc
     parameters.delete('action');	# by yc
@@ -84,58 +85,41 @@ class ConsumerController < ApplicationController
       else
         flash[:error] = "Verification failed: #{oidresp.message}"
       end
-    when OpenID::Consumer::SUCCESS
-      flash[:success] = ("Verification of #{oidresp.display_identifier}"\
-                         " succeeded.")
-      if params[:did_sreg]
-        sreg_resp = OpenID::SReg::Response.from_success_response(oidresp)
-        sreg_message = "Simple Registration data was requested"
-        if sreg_resp.empty?
-          sreg_message << ", but none was returned."
-        else
-          sreg_message << ". The following data were sent:"
-          sreg_resp.data.each {|k,v|
-            sreg_message << "<br/><b>#{k}</b>: #{v}"
-          }
-        end
-        flash[:sreg_results] = sreg_message
-      end
-      if params[:did_pape]
-        pape_resp = OpenID::PAPE::Response.from_success_response(oidresp)
-        pape_message = "A phishing resistant authentication method was requested"
-        if pape_resp.auth_policies.member? OpenID::PAPE::AUTH_PHISHING_RESISTANT
-          pape_message << ", and the server reported one."
-        else
-          pape_message << ", but the server did not report one."
-        end
-        if pape_resp.auth_time
-          pape_message << "<br><b>Authentication time:</b> #{pape_resp.auth_time} seconds"
-        end
-        if pape_resp.nist_auth_level
-          pape_message << "<br><b>NIST Auth Level:</b> #{pape_resp.nist_auth_level}"
-        end
-        flash[:pape_results] = pape_message
-      end
-      if params[:did_ax]	# by yc
-        ax_resp = OpenID::AX::FetchResponse.from_success_response(oidresp)
-        ax_message = 'axschema data was requested'
-        if !ax_resp || ax_resp.data.empty?
-          ax_message << ', but none was returned.'
-        else
-          ax_message << '. The following data were sent:'
-          ax_resp.data.each {|k,v|
-            ax_message << "<br/><b>#{k}</b>: #{v}"
-          }
-        end
-        flash[:ax_results] = ax_message
-      end
+      redirect_to :action => 'index'
     when OpenID::Consumer::SETUP_NEEDED
       flash[:alert] = "Immediate request failed - Setup Needed"
+      redirect_to :action => 'index'
     when OpenID::Consumer::CANCEL
       flash[:alert] = "OpenID transaction cancelled."
+      redirect_to :action => 'index'
+    when OpenID::Consumer::SUCCESS
+      identifier = oidresp.display_identifier
+
+      sreg_resp = OpenID::SReg::Response.from_success_response(oidresp)
+      email    = sreg_resp['email']
+      nickname = sreg_resp['nickname']
+      dob      = sreg_resp['dob']
+      fullname = sreg_resp['fullname']
+
+      ax_resp = OpenID::AX::FetchResponse.from_success_response(oidresp)
+      if ax_resp && ax_resp.data
+        email      = ax_resp.data['http://axschema.org/contact/email'][0]
+        first_name = ax_resp.data['http://axschema.org/namePerson/first'][0]
+        last_name  = ax_resp.data['http://axschema.org/namePerson/last'][0]
+      end
+
+      session['user'] = { :identifier => identifier,
+        :email => email, :nickname => nickname, :dob => dob, :fullname => fullname,
+        :first_name => first_name, :last_name => last_name
+      };
+      puts session['user'].to_s
+
+      flash[:success] = ("Verification of #{oidresp.display_identifier}"\
+                         " succeeded.")
+      redirect_to :controller => 'home'
     else
+      redirect_to :action => 'index'
     end
-    redirect_to :action => 'index'
   end
 
   private
