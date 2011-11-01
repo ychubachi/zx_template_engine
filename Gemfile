@@ -36,3 +36,4 @@ group :test do
 end
 
 gem 'ruby-openid'
+gem 'zipruby'

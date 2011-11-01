@@ -1,3 +1,5 @@
+require 'zipruby'
+
 class TemplatesController < ApplicationController
   # GET /templates
   # GET /templates.json
@@ -82,16 +84,28 @@ class TemplatesController < ApplicationController
   end
 
   def upload
-    puts '-' * 60
-    puts request.content_length
-    puts params[:template_file]
-    puts params[:template_file].path
-    tmpfile =  params[:template_file].path
-    /.*\/(.*)/ =~ tmpfile
-    uploaded_file = ::Rails.root.to_s + '/zx_template/' + $1
-    puts uploaded_file
+    puts '-' * 60 + 'templates/upload'
+    uploaded_file = params[:template_file]
+    #    puts uploaded_file.class.instance_methods
+    new_file_path = "#{::Rails.root.to_s}/zx_template/#{uploaded_file.original_filename}"
+    FileUtils.mv uploaded_file.path, new_file_path
 
-    FileUtils.mv tmpfile, uploaded_file
-#    puts params[:template_file].content_type
+    Zip::Archive.open(new_file_path) do |ar|
+      ar.each do |zf|
+        name = "#{new_file_path}-files/#{zf.name}"
+        if zf.directory?
+          FileUtils.mkdir_p()
+        else
+          dirname = File.dirname(name)
+          FileUtils.mkdir_p(dirname) unless File.exist?(dirname)
+
+          open(name, 'wb') do |f|
+            f << zf.read
+          end
+        end
+      end
+    end
+  rescue => exc
+    puts exc
   end
 end

@@ -1,6 +1,5 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<h1>Welcome <%= flash[:user_display_name] %></h1>
 
-<p><%= flash[:user_display_name] %></p>
+<a href="<%= url_for :controller => 'templates' %>"> Templates </a><br/>
 
-<a href='<%= url_for :action => 'logout' %>'> logout </a>
+<a href="<%= url_for :action => 'logout' %>"> logout </a>
