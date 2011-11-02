@@ -1,4 +1,5 @@
 require 'zipruby'
+require 'find'
 
 class TemplatesController < ApplicationController
   # GET /templates
@@ -87,12 +88,37 @@ class TemplatesController < ApplicationController
     puts '-' * 60 + 'templates/upload'
     uploaded_file = params[:template_file]
     #    puts uploaded_file.class.instance_methods
+    # Move an upload tmp file to our templates dir
     new_file_path = "#{::Rails.root.to_s}/zx_template/#{uploaded_file.original_filename}"
     FileUtils.mv uploaded_file.path, new_file_path
 
-    Zip::Archive.open(new_file_path) do |ar|
+    # Unzip the file
+    zip_dir = unzip(new_file_path)
+
+    # Scan the file for parameters
+    placeholders = []
+    Find.find(zip_dir) do |file|
+      if File.file?(file) && !File.extname(file).eql?('.bin')
+        File.open(file) do |f|
+          f.each() do |line|
+            line.scan(/#\{(.*?)\}/) {
+              placeholders << $1
+            }
+          end
+        end
+      end
+    end
+    p placeholders
+
+  rescue => exc
+    puts exc #TODO: redirect to error page
+  end
+  
+  def unzip zip_file_path
+    zip_dir = "#{zip_file_path}-files"
+    Zip::Archive.open(zip_file_path) do |ar|
       ar.each do |zf|
-        name = "#{new_file_path}-files/#{zf.name}"
+        name = "#{zip_dir}/#{zf.name}"
         if zf.directory?
           FileUtils.mkdir_p()
         else
@@ -105,7 +131,6 @@ class TemplatesController < ApplicationController
         end
       end
     end
-  rescue => exc
-    puts exc
+    zip_dir
   end
 end
