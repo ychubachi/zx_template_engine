@@ -1,5 +1,4 @@
 .bundle
-db/*.sqlite3
 log/*.log
 tmp/
 .sass-cache/
@@ -7,4 +6,3 @@ db/cstore
 *~
 #*
 \.#*
-zx_template/RackMultipart*
