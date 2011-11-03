@@ -117,7 +117,7 @@ class TemplatesController < ApplicationController
       ar.each do |zf|
         name = "#{to_dir}/#{zf.name}"
         if zf.directory?
-          FileUtils.mkdir_p()
+          FileUtils.mkdir_p(name)
         else
           dirname = File.dirname(name)
           FileUtils.mkdir_p(dirname) unless File.exist?(dirname)
@@ -179,7 +179,7 @@ class TemplatesController < ApplicationController
 
   def zip(zip_dir, zip_file_name)
     puts '#' * 60 + "zip(#{zip_dir},#{zip_file_name}"
-    Zip::Archive.open(zip_file_name, Zip::CREATE) do |ar|
+    Zip::Archive.open(zip_file_name, Zip::CREATE | Zip::TRUNC, Zip::NO_COMPRESSION) do |ar|
       # ar.add_dir('dir')
 
       Dir.glob("#{zip_dir}/**/*").each do |path|
