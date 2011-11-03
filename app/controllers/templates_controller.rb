@@ -86,45 +86,47 @@ class TemplatesController < ApplicationController
 
   def upload
     puts '-' * 60 + 'templates/upload'
-    uploaded_file = params[:template_file]
-    #    puts uploaded_file.class.instance_methods
+
+    # Path
+    tmp_file          = params[:template_file]
+    tmp_file_path     = tmp_file.path
+    new_zip_file_path = "#{::Rails.root.to_s}/public/#{tmp_file.original_filename}"
+    zip_file_path     = "#{::Rails.root.to_s}/zx_template/#{tmp_file.original_filename}"
+    zip_dir           = "#{zip_file_path}-files"
+    new_zip_dir       = "#{zip_file_path}-replaced"
+
     # Move an upload tmp file to our templates dir
-    new_file_path = "#{::Rails.root.to_s}/zx_template/#{uploaded_file.original_filename}"
-    FileUtils.mv uploaded_file.path, new_file_path
-
+    FileUtils.mv tmp_file_path, zip_file_path
     # Unzip the file
-    zip_dir = unzip(new_file_path)
-
+    unzip(zip_file_path, zip_dir)
     # Scan the file for parameters
     placeholders = scan_placeholders(zip_dir)
-    p placeholders
-
-    replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa'}
-    new_zip_dir = "#{new_file_path}-replaced"
+    # Replace the placeholders # TODO
+    #    replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa'}
+    replacements = {}
     replace_placeholders(zip_dir, replacements, new_zip_dir)
+    # Zip them again
+    zip(new_zip_dir, new_zip_file_path)
 
-  rescue => exc
-    puts exc #TODO: redirect to error page
+#  rescue => exc
+#    puts exc #TODO: redirect to error page
   end
   
-  def unzip zip_file_path
-    zip_dir = "#{zip_file_path}-files"
-    Zip::Archive.open(zip_file_path) do |ar|
+  def unzip(from_file,to_dir)
+    Zip::Archive.open(from_file) do |ar|
       ar.each do |zf|
-        name = "#{zip_dir}/#{zf.name}"
+        name = "#{to_dir}/#{zf.name}"
         if zf.directory?
           FileUtils.mkdir_p()
         else
           dirname = File.dirname(name)
           FileUtils.mkdir_p(dirname) unless File.exist?(dirname)
-
           open(name, 'wb') do |f|
             f << zf.read
           end
         end
       end
     end
-    zip_dir
   end
 
   def scan_placeholders zip_dir
@@ -160,7 +162,7 @@ class TemplatesController < ApplicationController
               input.each do |line|
                 replacements.each do |k,v|
                   placeholder = '#{' + k + '}'
-                  puts "placeholder=#{placeholder}"
+#                  puts "placeholder=#{placeholder}"
                   if ! line.scan(/#{placeholder}/).empty?
                     line.gsub!(/#{placeholder}/, v)
                     puts "line=#{line}"
@@ -172,26 +174,26 @@ class TemplatesController < ApplicationController
           end
         end
       end
-#        FileUtils.mkdir_p(dirname) unless File.exist?(dirname)
-        
-      
-#      if File.directory?(file)
-#        FileUtils.mkdir_p(dirname) unless File.exist?(dirname)
-        
-
-        # dirname = File.dir
-        # && !File.extname(file).eql?('.bin')
-        # File.open(file) do |f|
-        #   f.each() do |line|
-        #     line.scan(/#\{(.*?)\}/) {
-        #       placeholders << $1
-        #     }
-        #   end
-        # end
-
- #     end
     end
-    
   end
+
+  def zip(zip_dir, zip_file_name)
+    puts '#' * 60 + "zip(#{zip_dir},#{zip_file_name}"
+    Zip::Archive.open(zip_file_name, Zip::CREATE) do |ar|
+      # ar.add_dir('dir')
+
+      Dir.glob("#{zip_dir}/**/*").each do |path|
+        puts path
+        new_path = path.gsub(/#{zip_dir}\//, '')
+        puts new_path
+        if File.directory?(path)
+          ar.add_dir(new_path)
+        else
+          ar.add_file(new_path, path) # add_file(<entry name>, <source path>)
+        end
+      end
+    end
+  end
+
 
 end
