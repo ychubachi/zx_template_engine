@@ -102,8 +102,8 @@ class TemplatesController < ApplicationController
     # Scan the file for parameters
     placeholders = scan_placeholders(zip_dir)
     # Replace the placeholders # TODO
-    #    replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa'}
-    replacements = {}
+    replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa'}
+#    replacements = {}
     replace_placeholders(zip_dir, replacements, new_zip_dir)
     # Zip them again
     zip(new_zip_dir, new_zip_file_path)
@@ -179,19 +179,22 @@ class TemplatesController < ApplicationController
 
   def zip(zip_dir, zip_file_name)
     puts '#' * 60 + "zip(#{zip_dir},#{zip_file_name}"
-    Zip::Archive.open(zip_file_name, Zip::CREATE | Zip::TRUNC, Zip::NO_COMPRESSION) do |ar|
-      # ar.add_dir('dir')
+    # Zip::Archive.open(zip_file_name, Zip::CREATE | Zip::TRUNC, Zip::NO_COMPRESSION) do |ar|
+    #   # ar.add_dir('dir')
 
-      Dir.glob("#{zip_dir}/**/*").each do |path|
-        puts path
-        new_path = path.gsub(/#{zip_dir}\//, '')
-        puts new_path
-        if File.directory?(path)
-          ar.add_dir(new_path)
-        else
-          ar.add_file(new_path, path) # add_file(<entry name>, <source path>)
-        end
-      end
+    #   Dir.glob("#{zip_dir}/**/*").each do |path|
+    #     puts path
+    #     new_path = path.gsub(/#{zip_dir}\//, '')
+    #     puts new_path
+    #     if File.directory?(path)
+    #       ar.add_dir(new_path)
+    #     else
+    #       ar.add_file(new_path, path) # add_file(<entry name>, <source path>)
+    #     end
+    #   end
+    # end
+    FileUtils.cd(zip_dir) do
+      system("zip -r #{zip_file_name} *")
     end
   end
 
