@@ -97,7 +97,7 @@ class TemplatesController < ApplicationController
     # Move an upload tmp file to our templates dir
     FileUtils.mv tmp_file_path, zip_file_path
 
-    zr = ZipReplacer.new()
+    zr = ZipReplacer.new(zip_file_path)
     # Unzip the file
     zr.unzip(zip_file_path, zip_dir)
     # Scan the file for parameters

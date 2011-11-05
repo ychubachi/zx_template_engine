@@ -2,6 +2,10 @@ require 'zipruby'
 require 'find'
 
 class ZipReplacer
+  def initialize(zip_file_path)
+    puts "zip_file_path=#{zip_file_path}"
+  end
+
   def unzip(from_file,to_dir)
     Zip::Archive.open(from_file) do |ar|
       ar.each do |zf|
