@@ -37,3 +37,5 @@ end
 
 gem 'ruby-openid'
 gem 'zipruby'
+
+gem "rspec-rails", ">= 2.6.0", :group => [:development, :test]
