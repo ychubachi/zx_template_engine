@@ -1,5 +1,4 @@
-require 'zipruby'
-require 'find'
+require 'zip_replacer'
 
 class TemplatesController < ApplicationController
   # GET /templates
@@ -89,7 +88,7 @@ class TemplatesController < ApplicationController
 
     # Path
     tmp_file          = params[:template_file]
-    tmp_file_path     = tmp_file.path
+    tmp_file_path     = tmp_file.path # /tmp/ZxTemplate.xlsx
     new_zip_file_path = "#{::Rails.root.to_s}/public/#{tmp_file.original_filename}"
     zip_file_path     = "#{::Rails.root.to_s}/zx_template/#{tmp_file.original_filename}"
     zip_dir           = "#{zip_file_path}-files"
@@ -97,89 +96,20 @@ class TemplatesController < ApplicationController
 
     # Move an upload tmp file to our templates dir
     FileUtils.mv tmp_file_path, zip_file_path
+
+    zr = ZipReplacer.new()
     # Unzip the file
-    unzip(zip_file_path, zip_dir)
+    zr.unzip(zip_file_path, zip_dir)
     # Scan the file for parameters
-    placeholders = scan_placeholders(zip_dir)
+    placeholders = zr.scan_placeholders(zip_dir)
     # Replace the placeholders # TODO
     replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa'}
-#    replacements = {}
-    replace_placeholders(zip_dir, replacements, new_zip_dir)
+    zr.replace_placeholders(zip_dir, replacements, new_zip_dir)
     # Zip them again
-    zip(new_zip_dir, new_zip_file_path)
+    zr.zip(new_zip_dir, new_zip_file_path)
 
 #  rescue => exc
 #    puts exc #TODO: redirect to error page
   end
   
-  def unzip(from_file,to_dir)
-    Zip::Archive.open(from_file) do |ar|
-      ar.each do |zf|
-        name = "#{to_dir}/#{zf.name}"
-        if zf.directory?
-          FileUtils.mkdir_p(name)
-        else
-          dirname = File.dirname(name)
-          FileUtils.mkdir_p(dirname) unless File.exist?(dirname)
-          open(name, 'wb') do |f|
-            f << zf.read
-          end
-        end
-      end
-    end
-  end
-
-  def scan_placeholders zip_dir
-    placeholders = []
-    Find.find(zip_dir) do |file|
-      if File.file?(file) && !File.extname(file).eql?('.bin')
-        File.open(file) do |f|
-          f.each() do |line|
-            line.scan(/#\{(.*?)\}/) {
-              placeholders << $1
-            }
-          end
-        end
-      end
-    end
-    placeholders
-  end
-
-  def replace_placeholders(zip_dir, replacements, new_zip_dir)
-    puts '*' * 60 + 'replace_placeholder'
-    Find.find(zip_dir) do |file|
-      if File.file?(file)
-        new_file = file.gsub(zip_dir, new_zip_dir)
-        dir_name = File.dirname(new_file)
-        FileUtils.mkdir_p(dir_name) unless File.exist?(dir_name)
-
-        if File.extname(file).eql?('.bin')
-          puts "binaryfile=#{file}"
-          FileUtils.cp(file, new_file)
-        else 
-          File.open(new_file, 'w') do |output|
-            File.open(file, 'r') do |input|
-              input.each do |line|
-                replacements.each do |k,v|
-                  placeholder = '#{' + k + '}'
-#                  puts "placeholder=#{placeholder}"
-                  if ! line.scan(/#{placeholder}/).empty?
-                    line.gsub!(/#{placeholder}/, v)
-                    puts "line=#{line}"
-                  end
-                end
-                output << line
-              end
-            end
-          end
-        end
-      end
-    end
-  end
-
-  def zip(zip_dir, zip_file_name)
-    FileUtils.cd(zip_dir) do
-      system("zip -r #{zip_file_name} *")
-    end
-  end
 end
