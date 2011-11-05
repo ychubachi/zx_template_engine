@@ -61,21 +61,11 @@ class ZipReplacer
       end
     end
 
-    zip_file_name = zip(replace_dir)
-    return zip_file_name, count
+    zip_file_path = zip(replace_dir)
+    return zip_file_path, count
   end
   
   private
-  
-  def zip(zip_dir)
-    basename = File.basename(zip_dir)
-    extname = File.extname(zip_dir)
-    zip_file_name = "#{@tmp_dir}/#{basename}.new#{extname}"
-    FileUtils.cd(zip_dir) do
-      system("zip -r #{zip_file_name} * > /dev/null")
-    end
-    return zip_file_name
-  end
 
   def unzip(file_path)
     basename = File.basename(file_path)
@@ -98,6 +88,16 @@ class ZipReplacer
 
     FileUtils.rm_rf(tmp_file_path)
     return unzip_dir
+  end
+  
+  def zip(zip_dir)
+    basename = File.basename(zip_dir)
+    extname = File.extname(zip_dir)
+    zip_file_path = "#{@tmp_dir}/#{basename}.new#{extname}"
+    FileUtils.cd(zip_dir) do
+      system("zip -r #{zip_file_path} * > /dev/null")
+    end
+    return zip_file_path
   end
   
   def unzip_if_necessary(file_path)

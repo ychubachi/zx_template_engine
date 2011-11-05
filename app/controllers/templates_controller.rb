@@ -86,27 +86,23 @@ class TemplatesController < ApplicationController
   def upload
     puts '-' * 60 + 'templates/upload'
 
-    # Path
-    tmp_file          = params[:template_file]
-    tmp_file_path     = tmp_file.path # /tmp/ZxTemplate.xlsx
-    new_zip_file_path = "#{::Rails.root.to_s}/public/#{tmp_file.original_filename}"
-    zip_file_path     = "#{::Rails.root.to_s}/zx_template/#{tmp_file.original_filename}"
-    zip_dir           = "#{zip_file_path}-files"
-    new_zip_dir       = "#{zip_file_path}-replaced"
+    # Path for uploaded file
+    template_file    = params[:template_file]
+#    puts YAML.dump(template_file)
+    tmp_file_path    = template_file.path # /tmp/RackMultipart....
+    @original_filename = params[:template_file].original_filename # ZxTemplate.xlsx
 
-    # Move an upload tmp file to our templates dir
-    FileUtils.mv tmp_file_path, zip_file_path
-
-    zr = ZipReplacer.new(zip_file_path)
-    # Unzip the file
-    zr.unzip(zip_file_path, zip_dir)
     # Scan the file for parameters
-    placeholders = zr.scan_placeholders(zip_dir)
-    # Replace the placeholders # TODO
-    replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa'}
-    zr.replace_placeholders(zip_dir, replacements, new_zip_dir)
-    # Zip them again
-    zr.zip(new_zip_dir, new_zip_file_path)
+    zr = ZipReplacer.new('/tmp')
+    placeholders = zr.scan(tmp_file_path)
+
+    # Replace the placeholders
+    replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa', 'zip' => '140'}
+    zip_file_path, count = zr.replace(tmp_file_path, replacements)
+
+    # Move the file to the public dir
+    zip_file_basename = File.basename(zip_file_path)
+    FileUtils.mv(zip_file_path, "#{::Rails.root.to_s}/public/#{@original_filename}")
 
 #  rescue => exc
 #    puts exc #TODO: redirect to error page
