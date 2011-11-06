@@ -44,6 +44,18 @@ class TemplatesController < ApplicationController
   def create
     @template = Template.new(params[:template])
 
+    # Path for uploaded file
+    template_file      = params[:file]
+    if template_file
+      tmp_file_path      = template_file.path			# /tmp/RackMultipart....
+      @template.filename = template_file.original_filename	# ZxTemplate.xlsx
+      # Scan the file for parameters
+      zr = ZipReplacer.new('/tmp')
+      @placeholders = zr.scan(tmp_file_path)
+      puts YAML::dump(@placeholders)
+    end
+
+
     respond_to do |format|
       if @template.save
         format.html { redirect_to @template, notice: 'Template was successfully created.' }
@@ -84,17 +96,14 @@ class TemplatesController < ApplicationController
   end
 
   def upload
-    puts '-' * 60 + 'templates/upload'
-
     # Path for uploaded file
-    template_file    = params[:template_file]
-#    puts YAML.dump(template_file)
-    tmp_file_path    = template_file.path # /tmp/RackMultipart....
-    @original_filename = params[:template_file].original_filename # ZxTemplate.xlsx
+    template_file      = params[:template_file]
+    tmp_file_path      = template_file.path			# /tmp/RackMultipart....
+    @original_filename = template_file.original_filename	# ZxTemplate.xlsx
 
     # Scan the file for parameters
     zr = ZipReplacer.new('/tmp')
-    placeholders = zr.scan(tmp_file_path)
+    @placeholders = zr.scan(tmp_file_path)
 
     # Replace the placeholders
     replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa', 'zip' => '140'}
@@ -103,9 +112,6 @@ class TemplatesController < ApplicationController
     # Move the file to the public dir
     zip_file_basename = File.basename(zip_file_path)
     FileUtils.mv(zip_file_path, "#{::Rails.root.to_s}/public/#{@original_filename}")
-
-#  rescue => exc
-#    puts exc #TODO: redirect to error page
   end
   
 end
