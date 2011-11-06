@@ -15,6 +15,13 @@
   <%= @template.memo %>
 </p>
 
+<p>Placeholders are:<%= @placeholders %></p>
+
+<ol>
+<%# @placeholders.each do |placeholder|  %>
+<li><%#= placeholder %></li>
+<%# end %>
+</ol>
 
 <%= link_to 'Edit', edit_template_path(@template) %> |
 <%= link_to 'Back', templates_path %>

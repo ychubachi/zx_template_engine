@@ -42,19 +42,19 @@ class TemplatesController < ApplicationController
   # POST /templates
   # POST /templates.json
   def create
+    puts '*' * 80
     @template = Template.new(params[:template])
 
     # Path for uploaded file
-    template_file      = params[:file]
-    if template_file
+    attachment = params[:attachment]
+    if attachment && template_file = attachment["file"]
       tmp_file_path      = template_file.path			# /tmp/RackMultipart....
       @template.filename = template_file.original_filename	# ZxTemplate.xlsx
       # Scan the file for parameters
       zr = ZipReplacer.new('/tmp')
-      @placeholders = zr.scan(tmp_file_path)
-      puts YAML::dump(@placeholders)
+      placeholders = zr.scan(tmp_file_path)
+      @template.memo = placeholders.to_s
     end
-
 
     respond_to do |format|
       if @template.save
