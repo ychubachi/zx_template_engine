@@ -8,7 +8,7 @@ ZxTemplateEngine::Application.routes.draw do
   get "consumer/start"
   get "consumer/complete"
 
-  post 'templates/upload'
+  post 'templates/replace'
 
 #  root :to => 'home#index'
   root :to => 'templates#index'

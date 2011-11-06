@@ -95,17 +95,9 @@ class TemplatesController < ApplicationController
     end
   end
 
-  def upload
-    # Path for uploaded file
-    template_file      = params[:template_file]
-    tmp_file_path      = template_file.path			# /tmp/RackMultipart....
-    @original_filename = template_file.original_filename	# ZxTemplate.xlsx
-
-    # Scan the file for parameters
-    zr = ZipReplacer.new('/tmp')
-    @placeholders = zr.scan(tmp_file_path)
-
+  def replace # TODO:
     # Replace the placeholders
+    zr = ZipReplacer.new('/tmp')
     replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa', 'zip' => '140'}
     zip_file_path, count = zr.replace(tmp_file_path, replacements)
 
