@@ -10,7 +10,8 @@ ZxTemplateEngine::Application.routes.draw do
 
   post 'templates/upload'
 
-  root :to => 'home#index'
+#  root :to => 'home#index'
+  root :to => 'templates#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
