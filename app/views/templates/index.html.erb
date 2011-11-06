@@ -3,7 +3,6 @@
 <table>
   <tr>
     <th>Filename</th>
-    <th>Identifier</th>
     <th>Memo</th>
     <th></th>
     <th></th>
@@ -13,7 +12,6 @@
 <% @templates.each do |template| %>
   <tr>
     <td><%= template.filename %></td>
-    <td><%= template.identifier %></td>
     <td><%= template.memo %></td>
     <td><%= link_to 'Show', template %></td>
     <td><%= link_to 'Edit', edit_template_path(template) %></td>

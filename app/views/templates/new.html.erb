@@ -2,11 +2,4 @@
 
 <%= render 'form' %>
 
-<hr/>
-<form action="<%= url_for :action => 'upload' %>" method="POST" enctype="multipart/form-data">
-<input type="file" name="template_file"/>
-<input type="submit"/>
-</form>
-
-
 <%= link_to 'Back', templates_path %>

@@ -11,11 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111106143036) do
+ActiveRecord::Schema.define(:version => 20111106160443) do
 
   create_table "templates", :force => true do |t|
     t.string   "filename"
-    t.string   "identifier"
     t.string   "memo"
     t.datetime "created_at"
     t.datetime "updated_at"
