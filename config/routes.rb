@@ -1,4 +1,6 @@
 ZxTemplateEngine::Application.routes.draw do
+  resources :placeholders
+
   resources :templates
 
   get "home/index"

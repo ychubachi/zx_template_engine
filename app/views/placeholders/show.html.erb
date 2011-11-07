@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Key:</b>
+  <%= @placeholder.key %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%= @placeholder.value %>
+</p>
+
+
+<%= link_to 'Edit', edit_placeholder_path(@placeholder) %> |
+<%= link_to 'Back', placeholders_path %>
