@@ -1,3 +1,3 @@
 class Template < ActiveRecord::Base
-  has_mane: placeholders
+  has_many :placeholders, {:dependent => :delete_all}
 end

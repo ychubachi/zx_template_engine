@@ -45,19 +45,22 @@ class TemplatesController < ApplicationController
     puts '*' * 80
     @template = Template.new(params[:template])
 
-    # Path for uploaded file
+    # Append placeholders to the template
     attachment = params[:attachment]
     if attachment && template_file = attachment["file"]
-      tmp_file_path      = template_file.path			# /tmp/RackMultipart....
       @template.filename = template_file.original_filename	# ZxTemplate.xlsx
+      @template.memo = template_file.path			# /tmp/RackMultipart....
       # Scan the file for parameters
       zr = ZipReplacer.new('/tmp')
-      placeholders = zr.scan(tmp_file_path)
-      @template.memo = placeholders.to_s
+      placeholders = zr.scan(template_file.path)
     end
 
     respond_to do |format|
       if @template.save
+        placeholders.each do |k,v|
+          @template.placeholders.create! :key => k, :value => v
+        end
+        
         format.html { redirect_to @template, notice: 'Template was successfully created.' }
         format.json { render json: @template, status: :created, location: @template }
       else
@@ -65,6 +68,7 @@ class TemplatesController < ApplicationController
         format.json { render json: @template.errors, status: :unprocessable_entity }
       end
     end
+
   end
 
   # PUT /templates/1
@@ -96,6 +100,9 @@ class TemplatesController < ApplicationController
   end
 
   def replace # TODO:
+    @template = Template.find(params[:id])
+    tmp_file_path =@template.memo
+    
     # Replace the placeholders
     zr = ZipReplacer.new('/tmp')
     replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa', 'zip' => '140'}
@@ -103,7 +110,7 @@ class TemplatesController < ApplicationController
 
     # Move the file to the public dir
     zip_file_basename = File.basename(zip_file_path)
-    FileUtils.mv(zip_file_path, "#{::Rails.root.to_s}/public/#{@original_filename}")
+    FileUtils.mv(zip_file_path, "#{::Rails.root.to_s}/public/#{@template.filename}")
   end
   
 end

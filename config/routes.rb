@@ -1,7 +1,6 @@
 ZxTemplateEngine::Application.routes.draw do
-  resources :placeholders
-
-  resources :templates
+#  root :to => 'home#index'
+  root :to => 'templates#index'
 
   get "home/index"
   get "home/logout"
@@ -10,10 +9,14 @@ ZxTemplateEngine::Application.routes.draw do
   get "consumer/start"
   get "consumer/complete"
 
-  post 'templates/replace'
+  resources :templates do
+    member do # see: http://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default
+      get 'replace'
+    end
+  end
 
-#  root :to => 'home#index'
-  root :to => 'templates#index'
+  resources :placeholders
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

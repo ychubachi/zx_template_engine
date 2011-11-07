@@ -10,5 +10,14 @@
   <%= @template.memo %>
 </p>
 
+<% if @template.placeholders.exists? %>
+  <ol>
+    <% @template.placeholders.each do |placeholder|  %>
+      <li>key=<%= placeholder.key %>,value=<%= placeholder.value %></li>
+    <% end %>
+  </ol>
+<% end %>
+
+
 <%= link_to 'Edit', edit_template_path(@template) %> |
 <%= link_to 'Back', templates_path %>
