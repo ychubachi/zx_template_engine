@@ -2,7 +2,8 @@ class PlaceholdersController < ApplicationController
   # GET /placeholders
   # GET /placeholders.json
   def index
-    @placeholders = Placeholder.all
+#    @placeholders = Placeholder.all
+    @placeholders = Placeholder.where(:template_id => params[:template_id])
 
     respond_to do |format|
       format.html # index.html.erb

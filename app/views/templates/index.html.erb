@@ -17,6 +17,7 @@
     <td><%= link_to 'Edit', edit_template_path(template) %></td>
     <td><%= link_to 'Destroy', template, confirm: 'Are you sure?', method: :delete %></td>
     <td><%= link_to 'Replace', replace_template_path(template) %></td>
+    <td><%= link_to 'Placeholders', template_placeholders_path(template) %></td>
   </tr>
 <% end %>
 </table>
