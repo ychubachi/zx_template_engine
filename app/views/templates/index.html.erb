@@ -1,9 +1,9 @@
-<h1><%= t "view.index" %></h1>
+<h1><%= t 'view.template.index' %></h1>
 
 <table>
   <tr>
-    <th><%= t "activerecord.attributes.template.filename" %></th>
-    <th>Zip File Path</th>
+    <th><%= t 'activerecord.attributes.template.filename' %></th>
+    <!-- <th>Zip File Path</th> -->
     <th></th>
     <th></th>
     <th></th>
@@ -12,17 +12,19 @@
 <% @templates.each do |template| %>
   <tr>
     <td><%= template.filename %></td>
-    <td><%= template.zip_file_path %></td>
+    <!-- <td><%= template.zip_file_path %></td> -->
     <td><%= link_to 'Show', template %></td>
     <td><%= link_to 'Edit', edit_template_path(template) %></td>
     <td><%= link_to 'Destroy', template, confirm: 'Are you sure?', method: :delete %></td>
     <td><%= link_to 'Replace', replace_template_path(template) %></td>
-    <td><%= link_to 'Placeholders', template_placeholders_path(template) %></td>
-    <td><%= link_to 'Instances', template_instances_path(template) %></td>
+    <td><%= link_to t('activerecord.attributes.template.placeholders'),
+	    template_placeholders_path(template) %></td>
+    <td><%= link_to t('activerecord.attributes.template.instances'),
+	    template_instances_path(template) %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Template', new_template_path %>
+<%= link_to t('view.template.new'), new_template_path %>

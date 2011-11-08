@@ -18,14 +18,16 @@ ja:
         values: 値一覧  #g
 
       template:
-        filename: ファイル名  #g
+        filename: 文書名  #g
         zip_file_path: zip_file_path  #g
         placeholders: 差込項目一覧  #g
-        instances: インスタンス  #g
+        instances: 差込済文書一覧  #g
 
       value:
         value: 値  #g
         instance: インスタンス  #g
         placeholder: 差込項目  #g
   view:
-    index: 雛形一覧 #g
+    template:
+      index: 雛形一覧 #g
+      new: 雛形登録 #g
