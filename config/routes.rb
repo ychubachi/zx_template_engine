@@ -1,6 +1,4 @@
 ZxTemplateEngine::Application.routes.draw do
-  resources :instances
-
 #  root :to => 'home#index'
   root :to => 'templates#index'
 
@@ -13,12 +11,14 @@ ZxTemplateEngine::Application.routes.draw do
 
   resources :templates do
     resources :placeholders
+    resources :instances
     member do # see: http://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default
       get 'replace'
     end
   end
-
+  resources :instances
   resources :placeholders
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -11,7 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111107050439) do
+ActiveRecord::Schema.define(:version => 20111108095406) do
+
+  create_table "instances", :force => true do |t|
+    t.integer  "template_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "placeholders", :force => true do |t|
     t.string   "key"
