@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111108095406) do
+ActiveRecord::Schema.define(:version => 20111108101233) do
 
   create_table "instances", :force => true do |t|
     t.integer  "template_id"
@@ -30,6 +30,14 @@ ActiveRecord::Schema.define(:version => 20111108095406) do
   create_table "templates", :force => true do |t|
     t.string   "filename"
     t.string   "memo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "values", :force => true do |t|
+    t.integer  "instance_id"
+    t.integer  "placeholder_id"
+    t.string   "value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
