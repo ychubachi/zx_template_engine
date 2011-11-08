@@ -103,8 +103,15 @@ class InstancesController < ApplicationController
 
     # Replace the placeholders
     zr = ZipReplacer.new('/tmp')
-    replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa', 'zip' => '140'}
-    zip_file_path, count = zr.replace(@template.memo, replacements)
+    #    replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa', 'zip' => '140'}
+    replacements = {}
+    @instance.values.each do |value|
+      key = value.placeholder.key
+      value = value.value
+      replacements[key] = value
+    end
+    
+    zip_file_path, count = zr.replace(@template.zip_file_path, replacements)
 
     # Move the file to the public dir
     zip_file_basename = File.basename(zip_file_path)

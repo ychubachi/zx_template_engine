@@ -3,7 +3,7 @@
 <p>
   <b>Template:</b>
   <%= @instance.template_id %>
-  <%= link_to 'Download', #{::Rails.root.to_s}/public/#{@template.filename} %>
+  <%= link_to 'Download', "/#{@template.filename}" %>
 </p>
 
 <%= link_to 'Edit', edit_template_instance_path(@template, @instance) %> |

@@ -49,7 +49,7 @@ class TemplatesController < ApplicationController
     attachment = params[:attachment]
     if attachment && template_file = attachment["file"]
       @template.filename = template_file.original_filename	# ZxTemplate.xlsx
-      @template.memo = template_file.path			# /tmp/RackMultipart....
+      @template.zip_file_path = template_file.path		# /tmp/RackMultipart....
       # Scan the file for parameters
       zr = ZipReplacer.new('/tmp')
       placeholders = zr.scan(template_file.path)
@@ -101,7 +101,7 @@ class TemplatesController < ApplicationController
 
   def replace # TODO:
     @template = Template.find(params[:id])
-    tmp_file_path =@template.memo
+    tmp_file_path =@template.zip_file_path
     
     # Replace the placeholders
     zr = ZipReplacer.new('/tmp')
