@@ -96,4 +96,19 @@ class InstancesController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  def generate
+    @template = Template.find(params[:template_id])
+    @instance = Instance.find(params[:id])
+
+    # Replace the placeholders
+    zr = ZipReplacer.new('/tmp')
+    replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa', 'zip' => '140'}
+    zip_file_path, count = zr.replace(@template.memo, replacements)
+
+    # Move the file to the public dir
+    zip_file_basename = File.basename(zip_file_path)
+    FileUtils.mv(zip_file_path, "#{::Rails.root.to_s}/public/#{@template.filename}")
+
+  end
 end

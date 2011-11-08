@@ -17,6 +17,9 @@ ZxTemplateEngine::Application.routes.draw do
     resources :placeholders
     resources :instances do
       resources :values
+      member do # see: http://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default
+        get 'generate'
+      end
     end
     member do # see: http://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default
       get 'replace'

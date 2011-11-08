@@ -7,6 +7,7 @@
     <th></th>
     <th></th>
     <th></th>
+    <th></th>
   </tr>
 
 <% @instances.each do |instance| %>
@@ -16,6 +17,7 @@
     <td><%= link_to 'Edit', edit_template_instance_path(@template, instance) %></td>
     <td><%= link_to 'Destroy', template_instance_path(@template, instance), confirm: 'Are you sure?', method: :delete %></td>
     <td><%= link_to 'Value', template_instance_values_path(@template, instance) %></td>
+    <td><%= link_to 'Generate', generate_template_instance_path(@template, instance) %></td>
   </tr>
 <% end %>
 </table>

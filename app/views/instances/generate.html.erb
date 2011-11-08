@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Template:</b>
+  <%= @instance.template_id %>
+  <%= link_to 'Download', #{::Rails.root.to_s}/public/#{@template.filename} %>
+</p>
+
+<%= link_to 'Edit', edit_template_instance_path(@template, @instance) %> |
+<%= link_to 'Back', template_instances_path(@template) %>
