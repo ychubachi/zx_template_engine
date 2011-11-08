@@ -16,5 +16,5 @@
 </p>
 
 
-<%= link_to 'Edit', edit_value_path(@value) %> |
-<%= link_to 'Back', values_path %>
+<%= link_to 'Edit', edit_template_instance_value_path(@template, @instance, @value) %> |
+<%= link_to 'Back', template_instance_values_path(@template, @instance) %>

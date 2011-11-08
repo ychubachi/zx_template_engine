@@ -2,5 +2,5 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @instance %> |
-<%= link_to 'Back', instances_path %>
+<%= link_to 'Show', template_instance_path(@template, @instance) %> |
+<%= link_to 'Back', template_instances_path(@template) %>

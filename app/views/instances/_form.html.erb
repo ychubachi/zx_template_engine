@@ -1,4 +1,4 @@
-<%= form_for(@instance) do |f| %>
+<%= form_for(@instance, url: template_instance_path(@template, @instance)) do |f| %>
   <% if @instance.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@instance.errors.count, "error") %> prohibited this instance from being saved:</h2>
@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label :template_id %><br />
-    <%= f.number_field :template_id %>
+    <%= f.number_field :template_id, value: @template.id %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -1,4 +1,4 @@
-<%= form_for(@value) do |f| %>
+<%= form_for(@value, url: template_instance_value_path(@template, @instance, @value)) do |f| %>
   <% if @value.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@value.errors.count, "error") %> prohibited this value from being saved:</h2>

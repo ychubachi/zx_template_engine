@@ -11,6 +11,8 @@ ZxTemplateEngine::Application.routes.draw do
   get "consumer/start"
   get "consumer/complete"
 
+  resources :instances
+  resources :placeholders
   resources :templates do
     resources :placeholders
     resources :instances do
@@ -20,8 +22,6 @@ ZxTemplateEngine::Application.routes.draw do
       get 'replace'
     end
   end
-  resources :instances
-  resources :placeholders
 
 
   # The priority is based upon order of creation:

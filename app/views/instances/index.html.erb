@@ -6,18 +6,20 @@
     <th></th>
     <th></th>
     <th></th>
+    <th></th>
   </tr>
 
 <% @instances.each do |instance| %>
   <tr>
     <td><%= instance.template_id %></td>
-    <td><%= link_to 'Show', instance %></td>
-    <td><%= link_to 'Edit', edit_instance_path(instance) %></td>
-    <td><%= link_to 'Destroy', instance, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to 'Show', template_instance_path(@template, instance) %></td>
+    <td><%= link_to 'Edit', edit_template_instance_path(@template, instance) %></td>
+    <td><%= link_to 'Destroy', template_instance_path(@template, instance), confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to 'Value', template_instance_values_path(@template, instance) %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Instance', new_instance_path %>
+<%= link_to 'New Instance', new_template_instance_path(@template) %>

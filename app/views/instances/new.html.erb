@@ -1,5 +1,7 @@
 <h1>New instance</h1>
 
+template_id = <%= @template.id %>
+
 <%= render 'form' %>
 
-<%= link_to 'Back', instances_path %>
+<%= link_to 'Back', template_instances_path(@template) %>
