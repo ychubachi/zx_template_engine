@@ -1,4 +1,6 @@
 ZxTemplateEngine::Application.routes.draw do
+  resources :instances
+
 #  root :to => 'home#index'
   root :to => 'templates#index'
 
