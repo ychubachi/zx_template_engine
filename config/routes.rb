@@ -21,9 +21,6 @@ ZxTemplateEngine::Application.routes.draw do
         get 'generate'
       end
     end
-    member do # see: http://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default
-      get 'replace'
-    end
   end
 
 

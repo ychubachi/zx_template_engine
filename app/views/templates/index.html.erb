@@ -13,10 +13,9 @@
   <tr>
     <td><%= template.filename %></td>
     <!-- <td><%= template.zip_file_path %></td> -->
-    <td><%= link_to 'Show', template %></td>
-    <td><%= link_to 'Edit', edit_template_path(template) %></td>
-    <td><%= link_to 'Destroy', template, confirm: 'Are you sure?', method: :delete %></td>
-    <td><%= link_to 'Replace', replace_template_path(template) %></td>
+    <td><%= link_to t('view.navigations.show'), template %></td>
+    <td><%= link_to t('view.navigations.edit'), edit_template_path(template) %></td>
+    <td><%= link_to t('view.navigations.destroy'), template, confirm: 'Are you sure?', method: :delete %></td>
     <td><%= link_to t('activerecord.attributes.template.placeholders'),
 	    template_placeholders_path(template) %></td>
     <td><%= link_to t('activerecord.attributes.template.instances'),

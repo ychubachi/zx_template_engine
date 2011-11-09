@@ -28,6 +28,10 @@ ja:
         instance: インスタンス  #g
         placeholder: 差込項目  #g
   view:
+    navigations:
+      show: 表示 #g
+      edit: 編集
+      destroy: 削除
     template:
       index: 雛形一覧 #g
       new: 雛形登録 #g

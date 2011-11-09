@@ -98,19 +98,5 @@ class TemplatesController < ApplicationController
       format.json { head :ok }
     end
   end
-
-  def replace # TODO:
-    @template = Template.find(params[:id])
-    tmp_file_path =@template.zip_file_path
-    
-    # Replace the placeholders
-    zr = ZipReplacer.new('/tmp')
-    replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa', 'zip' => '140'}
-    zip_file_path, count = zr.replace(tmp_file_path, replacements)
-
-    # Move the file to the public dir
-    zip_file_basename = File.basename(zip_file_path)
-    FileUtils.mv(zip_file_path, "#{::Rails.root.to_s}/public/#{@template.filename}")
-  end
   
 end
