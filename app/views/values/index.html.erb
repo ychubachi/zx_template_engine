@@ -13,7 +13,7 @@
 <% @values.each do |value| %>
   <tr>
     <!-- <td><%= value.instance_id %></td> -->
-    <td><%= value.placeholder.key %></td>
+    <td><%= strip_tags value.placeholder.key %></td>
     <td><%= value.value %></td>
     <!-- <td><%= link_to 'Show', template_instance_value_path(@template, @instance, value) %></td> -->
     <td><%= link_to t('view.navigations.edit'), edit_template_instance_value_path(@template, @instance, value) %></td>

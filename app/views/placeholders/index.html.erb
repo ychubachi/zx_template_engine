@@ -11,7 +11,7 @@
 
 <% @placeholders.each do |placeholder| %>
   <tr>
-    <td><%= placeholder.key %></td>
+    <td><%= strip_tags placeholder.key %></td>
     <td><%= placeholder.value %></td>
     <!-- <td><%= link_to 'Show', placeholder %></td> -->
     <td><%= link_to t('view.navigations.edit'), edit_template_placeholder_path(@template, placeholder) %></td>

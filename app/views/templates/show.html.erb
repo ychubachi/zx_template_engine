@@ -12,7 +12,7 @@
   </tr>
   <% @template.placeholders.each do |placeholder|  %>
     <tr>
-      <td><%= placeholder.key %></td>
+      <td><%= strip_tags placeholder.key %></td>
       <td><%= placeholder.value %></td>
     </tr>
   <% end %>

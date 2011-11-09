@@ -1,4 +1,3 @@
-require 'zipruby'
 require 'find'
 
 class ZipReplacer
@@ -15,7 +14,8 @@ class ZipReplacer
         File.open(file) do |f|
           f.each() do |line|
             line.scan(/#\{(.*?)\}/) {
-              placeholders << $1
+              placeholder = $1
+              placeholders << placeholder
             }
           end
         end
@@ -108,6 +108,4 @@ class ZipReplacer
     end
     return unzip_dir
   end
-  
-
 end
