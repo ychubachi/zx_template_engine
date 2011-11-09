@@ -1,15 +1,15 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Key:</b>
+  <b><%= t 'activerecord.attributes.placeholder.key' %>:</b>
   <%= @placeholder.key %>
 </p>
 
 <p>
-  <b>Value:</b>
+  <b><%= t 'activerecord.attributes.placeholder.value' %>:</b>
   <%= @placeholder.value %>
 </p>
 
 
-<%= link_to 'Edit', edit_placeholder_path(@placeholder) %> |
-<%= link_to 'Back', placeholders_path %>
+<%= link_to t('view.navigations.edit'), edit_template_placeholder_path(@template, @placeholder) %> |
+<%= link_to t('view.placeholder.index'), template_placeholders_path(@template) %>

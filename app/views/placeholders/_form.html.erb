@@ -1,4 +1,4 @@
-<%= form_for(@placeholder) do |f| %>
+<%= form_for(@placeholder, url: template_placeholder_path(@template, @placeholder)) do |f| %>
   <% if @placeholder.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@placeholder.errors.count, "error") %> prohibited this placeholder from being saved:</h2>

@@ -66,7 +66,7 @@ class PlaceholdersController < ApplicationController
 
     respond_to do |format|
       if @placeholder.update_attributes(params[:placeholder])
-        format.html { redirect_to @placeholder, notice: 'Placeholder was successfully updated.' }
+        format.html { redirect_to template_placeholders_path(@template), notice: 'Placeholder was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
