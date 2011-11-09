@@ -1,6 +1,5 @@
-<h1>Editing placeholder</h1>
+<h1><%= t 'view.placeholder.edit' %></h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @placeholder %> |
-<%= link_to 'Back', placeholders_path %>
+<%= link_to t('view.placeholder.index'), template_placeholders_path %>

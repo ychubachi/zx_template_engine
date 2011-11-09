@@ -13,7 +13,7 @@ ja:
 
       placeholder:
         key: 項目  #g
-        value: 値  #g
+        value: 値(デフォルト)  #g
         template: 雛形  #g
         values: 値一覧  #g
 
@@ -35,3 +35,6 @@ ja:
     template:
       index: 雛形一覧 #g
       new: 雛形登録 #g
+    placeholder:
+      index: 差込項目一覧
+      edit:  差込項目編集

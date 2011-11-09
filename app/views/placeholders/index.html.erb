@@ -1,25 +1,26 @@
-<h1>Listing placeholders</h1>
+<h1><%= t 'view.placeholder.index' %></h1>
 
 <table>
   <tr>
-    <th>Key</th>
-    <th>Value</th>
+    <th><%= t 'activerecord.attributes.placeholder.key' %></th>
+    <th><%= t 'activerecord.attributes.placeholder.value' %></th>
+    <!-- <th></th> -->
     <th></th>
-    <th></th>
-    <th></th>
+    <!-- <th></th> -->
   </tr>
 
 <% @placeholders.each do |placeholder| %>
   <tr>
     <td><%= placeholder.key %></td>
     <td><%= placeholder.value %></td>
-    <td><%= link_to 'Show', placeholder %></td>
-    <td><%= link_to 'Edit', edit_placeholder_path(placeholder) %></td>
-    <td><%= link_to 'Destroy', placeholder, confirm: 'Are you sure?', method: :delete %></td>
+    <!-- <td><%= link_to 'Show', placeholder %></td> -->
+    <td><%= link_to t('view.navigations.edit'), edit_template_placeholder_path(@template, placeholder) %></td>
+    <!-- <td><%= link_to 'Destroy', placeholder, confirm: 'Are you sure?', method: :delete %></td> -->
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Placeholder', new_placeholder_path %>
+<!-- <%= link_to 'New Placeholder', new_placeholder_path %> -->
+<%= link_to t('view.template.index'), templates_path %>

@@ -1,23 +1,22 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Filename:</b>
+  <b><%= t 'activerecord.attributes.template.filename' %>:</b>
   <%= @template.filename %>
 </p>
 
-<p>
-  <b>Zip File Path:</b>
-  <%= @template.zip_file_path %>
-</p>
+<table>
+  <tr>
+    <th><%= t 'activerecord.attributes.placeholder.key' %></th>
+    <th><%= t 'activerecord.attributes.placeholder.value' %></th>
+  </tr>
+  <% @template.placeholders.each do |placeholder|  %>
+    <tr>
+      <td><%= placeholder.key %></td>
+      <td><%= placeholder.value %></td>
+    </tr>
+  <% end %>
+</table>
 
-<% if @template.placeholders.exists? %>
-  <ol>
-    <% @template.placeholders.each do |placeholder|  %>
-      <li>key=<%= placeholder.key %>,value=<%= placeholder.value %></li>
-    <% end %>
-  </ol>
-<% end %>
-
-
-<%= link_to 'Edit', edit_template_path(@template) %> |
-<%= link_to 'Back', templates_path %>
+<!-- <%= link_to t('view.navigations.edit'), edit_template_path(@template) %> | -->
+<%= link_to t('view.template.index'), templates_path %>

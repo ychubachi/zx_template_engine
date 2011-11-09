@@ -2,6 +2,7 @@ class PlaceholdersController < ApplicationController
   # GET /placeholders
   # GET /placeholders.json
   def index
+    @template = Template.find(params[:template_id])
     @placeholders = Placeholder.where(:template_id => params[:template_id])
 
     respond_to do |format|
@@ -13,6 +14,7 @@ class PlaceholdersController < ApplicationController
   # GET /placeholders/1
   # GET /placeholders/1.json
   def show
+    @template = Template.find(params[:template_id])
     @placeholder = Placeholder.find(params[:id])
 
     respond_to do |format|
@@ -24,6 +26,7 @@ class PlaceholdersController < ApplicationController
   # GET /placeholders/new
   # GET /placeholders/new.json
   def new
+    @template = Template.find(params[:template_id])
     @placeholder = Placeholder.new
 
     respond_to do |format|
@@ -34,12 +37,14 @@ class PlaceholdersController < ApplicationController
 
   # GET /placeholders/1/edit
   def edit
+    @template = Template.find(params[:template_id])
     @placeholder = Placeholder.find(params[:id])
   end
 
   # POST /placeholders
   # POST /placeholders.json
   def create
+    @template = Template.find(params[:template_id])
     @placeholder = Placeholder.new(params[:placeholder])
 
     respond_to do |format|
@@ -56,6 +61,7 @@ class PlaceholdersController < ApplicationController
   # PUT /placeholders/1
   # PUT /placeholders/1.json
   def update
+    @template = Template.find(params[:template_id])
     @placeholder = Placeholder.find(params[:id])
 
     respond_to do |format|
