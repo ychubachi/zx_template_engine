@@ -1,27 +1,32 @@
-<h1>Listing instances</h1>
+<h1><%= t 'view.instance.index' %></h1>
 
 <table>
   <tr>
-    <th>Template</th>
+    <th><%= t 'activerecord.attributes.template.filename' %></th>
     <th></th>
     <th></th>
     <th></th>
+    <!--
     <th></th>
     <th></th>
+    -->
   </tr>
 
 <% @instances.each do |instance| %>
   <tr>
-    <td><%= instance.template_id %></td>
-    <td><%= link_to 'Show', template_instance_path(@template, instance) %></td>
-    <td><%= link_to 'Edit', edit_template_instance_path(@template, instance) %></td>
-    <td><%= link_to 'Destroy', template_instance_path(@template, instance), confirm: 'Are you sure?', method: :delete %></td>
-    <td><%= link_to 'Value', template_instance_values_path(@template, instance) %></td>
-    <td><%= link_to 'Generate', generate_template_instance_path(@template, instance) %></td>
+    <td><%= instance.template.filename %></td>
+    <!--
+    <td><%= link_to t('view.navigations.show'), template_instance_path(@template, instance) %></td>
+    <td><%= link_to t('view.navigations.edit'), edit_template_instance_path(@template, instance) %></td>
+    -->
+    <td><%= link_to t('view.navigations.destroy'), template_instance_path(@template, instance), confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to t('activerecord.attributes.instance.values'), template_instance_values_path(@template, instance) %></td>
+    <td><%= link_to t('view.instance.generate'), generate_template_instance_path(@template, instance) %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Instance', new_template_instance_path(@template) %>
+<%= link_to t('view.template.index'), templates_path %>|
+<%= link_to t('view.instance.new'), new_template_instance_path(@template) %>

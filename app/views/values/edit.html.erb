@@ -1,6 +1,8 @@
-<h1>Editing value</h1>
+<h1><%= t 'view.value.edit' %></h1>
 
 <%= render 'form' %>
 
+<!--
 <%= link_to 'Show', template_instance_value_path(@template, @instance, @value) %> |
-<%= link_to 'Back', template_instance_values_path(@template, @instance) %>
+-->
+<%= link_to t('view.value.index'), template_instance_values_path(@template, @instance) %>

@@ -1,10 +1,10 @@
+<h1><%= t 'view.instance.generate' %></h1>
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Template:</b>
-  <%= @instance.template_id %>
-  <%= link_to 'Download', "/#{@template.filename}" %>
+  <%= @instance.template.filename %>
+  <%= link_to t('view.navigations.download'), @download %>
 </p>
 
-<%= link_to 'Edit', edit_template_instance_path(@template, @instance) %> |
-<%= link_to 'Back', template_instances_path(@template) %>
+<%= link_to t('view.instance.index'), template_instances_path(@template) %>|
+<%= link_to t('view.value.index'), template_instance_values_path(@template,@instance) %>

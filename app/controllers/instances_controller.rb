@@ -44,8 +44,9 @@ class InstancesController < ApplicationController
   # POST /instances
   # POST /instances.json
   def create
-    @template = Template.find(params[:instance][:template_id])
+    @template = Template.find(params[:template_id])
     @instance = Instance.new(params[:instance])
+    @instance.template = @template
 
     respond_to do |format|
       if @instance.save
@@ -59,7 +60,7 @@ class InstancesController < ApplicationController
           value.save
         end
         
-        format.html { redirect_to template_instance_path(@template, @instance), notice: 'Instance was successfully created.' }
+        format.html { redirect_to template_instances_path(@template), notice: 'Instance was successfully created.' }
         format.json { render json: @instance, status: :created, location: @instance }
       else
         format.html { render action: "new" }
@@ -88,11 +89,12 @@ class InstancesController < ApplicationController
   # DELETE /instances/1
   # DELETE /instances/1.json
   def destroy
+    @template = Template.find(params[:template_id])
     @instance = Instance.find(params[:id])
     @instance.destroy
 
     respond_to do |format|
-      format.html { redirect_to instances_url }
+      format.html { redirect_to template_instances_path(@template) }
       format.json { head :ok }
     end
   end
@@ -116,6 +118,8 @@ class InstancesController < ApplicationController
     # Move the file to the public dir
     zip_file_basename = File.basename(zip_file_path)
     FileUtils.mv(zip_file_path, "#{::Rails.root.to_s}/public/#{@template.filename}")
+
+    @download = "/#{@template.filename}"
 
   end
 end

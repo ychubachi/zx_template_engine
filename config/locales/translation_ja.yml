@@ -32,9 +32,16 @@ ja:
       show: 表示 #g
       edit: 編集 #g
       destroy: 削除 #g
+      download: 保存 #g
     template:
       index: 雛形一覧 #g
       new: 雛形登録 #g
     placeholder:
       index: 差込項目一覧 #g
-      edit:  差込項目編集 #g
+    instance:
+      index: 差込済文書一覧 #g
+      new: 差込済文書登録 #g
+      generate: 文書生成 #g
+    value:
+      index: 項目値一覧 #g
+      edit: 項目値編集

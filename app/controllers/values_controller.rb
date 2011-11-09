@@ -72,7 +72,7 @@ class ValuesController < ApplicationController
 
     respond_to do |format|
       if @value.update_attributes(params[:value])
-        format.html { redirect_to template_instance_value_path(@template, @instance, @value), notice: 'Value was successfully updated.' }
+        format.html { redirect_to template_instance_values_path(@template, @instance), notice: 'Value was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

@@ -1,7 +1,5 @@
-<h1>New instance</h1>
-
-template_id = <%= @template.id %>
+<h1><%= t 'view.instance.new' %></h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Back', template_instances_path(@template) %>
+<%= link_to t('view.instance.index'), template_instances_path(@template) %>

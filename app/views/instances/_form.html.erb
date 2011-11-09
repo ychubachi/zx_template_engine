@@ -12,8 +12,7 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :template_id %><br />
-    <%= f.number_field :template_id, value: @template.id %>
+    <%= t 'activerecord.attributes.template.filename' %>: <%= @template.filename %>
   </div>
   <div class="actions">
     <%= f.submit %>

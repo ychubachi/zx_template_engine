@@ -11,6 +11,7 @@
     </div>
   <% end %>
 
+  <!--
   <div class="field">
     <%= f.label :instance_id %><br />
     <%= f.number_field :instance_id %>
@@ -19,6 +20,9 @@
     <%= f.label :placeholder_id %><br />
     <%= f.number_field :placeholder_id %>
   </div>
+  -->
+  <%= f.hidden_field :instance_id %>
+  <%= f.hidden_field :placeholder_id %>
   <div class="field">
     <%= f.label :value %><br />
     <%= f.text_field :value %>
