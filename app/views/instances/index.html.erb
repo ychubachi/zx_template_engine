@@ -3,6 +3,8 @@
 <table>
   <tr>
     <th><%= t 'activerecord.attributes.template.filename' %></th>
+    <th><%= t 'activerecord.attributes.instance.filename' %></th>
+    <th></th>
     <th></th>
     <th></th>
     <th></th>
@@ -11,6 +13,9 @@
 <% @instances.each do |instance| %>
   <tr>
     <td><%= instance.template.filename %></td>
+    <td><%= instance.filename %></td>
+    <td><%= link_to t('view.navigations.edit'),
+	    edit_template_instance_path(@template, instance) %></td>
     <td><%= link_to t('activerecord.attributes.instance.values'),
 	    template_instance_values_path(@template, instance) %></td>
     <td><%= link_to t('view.instance.generate'),

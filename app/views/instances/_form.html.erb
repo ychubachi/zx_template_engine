@@ -1,4 +1,4 @@
-<%= form_for(@instance, url: template_instances_path(@template)) do |f| %>
+<%= form_for([@template, @instance]) do |f| %>
   <% if @instance.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@instance.errors.count, "error") %> prohibited this instance from being saved:</h2>
@@ -12,7 +12,12 @@
   <% end %>
 
   <div class="field">
-    <%= t 'activerecord.attributes.template.filename' %>: <%= @template.filename %>
+    <%= t 'activerecord.attributes.template.filename' %>
+    <%= @template.filename %>
+  </div>
+  <div class="field">
+    <%= f.label :filename %>
+    <%= f.text_field :filename %>
   </div>
   <div class="actions">
     <%= f.submit %>

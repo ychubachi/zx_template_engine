@@ -10,6 +10,7 @@ ja:
       instance:
         template: 雛形  #g
         values: 値一覧  #g
+        filename: 生成文書名  #g
 
       placeholder:
         key: 項目 #g
@@ -18,16 +19,17 @@ ja:
         values: 値一覧  #g
 
       template:
-        filename: 文書名  #g
+        filename: 雛形文書名  #g
         zip_file_path: zip_file_path  #g
         placeholders: 差込項目一覧  #g
-        instances: 差込済文書一覧  #g
+        instances: 生成文書一覧  #g
 
       value:
         key: 項目 #g
         value: 値  #g
         instance: インスタンス  #g
         placeholder: 差込項目  #g
+
   view:
     navigations:
       show: 表示 #g
@@ -37,12 +39,14 @@ ja:
     template:
       index: 雛形一覧 #g
       new: 雛形登録 #g
+      attachment: 雛形文書 #g
     placeholder:
       index: 差込項目一覧 #g
     instance:
-      index: 差込済文書一覧 #g
-      new: 差込済文書登録 #g
-      generate: 文書生成 #g
+      index: 生成文書一覧 #g
+      new: 生成文書登録 #g
+      edit: 生成文書編集 #g
+      generate: 生成文書 #g
     value:
       index: 項目値一覧 #g
       edit: 項目値編集

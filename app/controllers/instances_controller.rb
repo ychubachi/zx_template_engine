@@ -29,6 +29,9 @@ class InstancesController < ApplicationController
     @template = Template.find(params[:template_id])
     @instance = Instance.new
 
+    day = Date.today
+    @instance.filename = "#{day} #{@template.filename}"
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @instance }
@@ -60,7 +63,8 @@ class InstancesController < ApplicationController
           value.save
         end
         
-        format.html { redirect_to template_instances_path(@template), notice: 'Instance was successfully created.' }
+        format.html { redirect_to template_instances_path(@template),
+          notice: 'Instance was successfully created.' }
         format.json { render json: @instance, status: :created, location: @instance }
       else
         format.html { render action: "new" }
@@ -105,21 +109,18 @@ class InstancesController < ApplicationController
 
     # Replace the placeholders
     zr = ZipReplacer.new('/tmp')
-    #    replacements = {'name' => 'Chubachi', 'address' => 'Shinagawa', 'zip' => '140'}
+
+    # Generate replacements' key and value pairs.  Then, replace them
     replacements = {}
     @instance.values.each do |value|
       key = value.placeholder.key
       value = value.value
       replacements[key] = value
     end
-    
     zip_file_path, count = zr.replace(@template.zip_file_path, replacements)
 
     # Move the file to the public dir
-    zip_file_basename = File.basename(zip_file_path)
-    FileUtils.mv(zip_file_path, "#{::Rails.root.to_s}/public/#{@template.filename}")
-
-    @download = "/#{@template.filename}"
-
+    FileUtils.mv(zip_file_path, "#{::Rails.root.to_s}/public/generated/#{@instance.filename}")
+    @download = "/generated/#{@instance.filename}"
   end
 end

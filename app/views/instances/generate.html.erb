@@ -2,8 +2,7 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <%= @instance.template.filename %>
-  <%= link_to t('view.navigations.download'), @download %>
+  <%= link_to @instance.filename, @download %>
 </p>
 
 <%= link_to t('view.instance.index'), template_instances_path(@template) %>|

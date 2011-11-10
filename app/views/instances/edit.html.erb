@@ -1,6 +1,5 @@
-<h1>Editing instance</h1>
+<h1><%= t 'view.instance.edit' %></h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', template_instance_path(@template, @instance) %> |
-<%= link_to 'Back', template_instances_path(@template) %>
+<%= link_to t('view.instance.index'), template_instances_path(@template) %>
