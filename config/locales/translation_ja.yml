@@ -12,7 +12,7 @@ ja:
         values: 値一覧  #g
 
       placeholder:
-        key: 項目  #g
+        key: 項目 #g
         value: 値(デフォルト)  #g
         template: 雛形  #g
         values: 値一覧  #g
@@ -24,6 +24,7 @@ ja:
         instances: 差込済文書一覧  #g
 
       value:
+        key: 項目 #g
         value: 値  #g
         instance: インスタンス  #g
         placeholder: 差込項目  #g

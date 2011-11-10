@@ -6,22 +6,17 @@
     <th></th>
     <th></th>
     <th></th>
-    <!--
-    <th></th>
-    <th></th>
-    -->
   </tr>
 
 <% @instances.each do |instance| %>
   <tr>
     <td><%= instance.template.filename %></td>
-    <!--
-    <td><%= link_to t('view.navigations.show'), template_instance_path(@template, instance) %></td>
-    <td><%= link_to t('view.navigations.edit'), edit_template_instance_path(@template, instance) %></td>
-    -->
-    <td><%= link_to t('view.navigations.destroy'), template_instance_path(@template, instance), confirm: 'Are you sure?', method: :delete %></td>
-    <td><%= link_to t('activerecord.attributes.instance.values'), template_instance_values_path(@template, instance) %></td>
-    <td><%= link_to t('view.instance.generate'), generate_template_instance_path(@template, instance) %></td>
+    <td><%= link_to t('activerecord.attributes.instance.values'),
+	    template_instance_values_path(@template, instance) %></td>
+    <td><%= link_to t('view.instance.generate'),
+	    generate_template_instance_path(@template, instance) %></td>
+    <td><%= link_to t('view.navigations.destroy'),
+	    template_instance_path(@template, instance), confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
 </table>

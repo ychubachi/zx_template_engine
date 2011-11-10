@@ -7,16 +7,14 @@
       <th><%= t 'activerecord.attributes.placeholder.value' %></th>
     </tr>
 
-    <tr>
-      <% @placeholders.each do |placeholder| %>
-	<%= template_form.fields_for :placeholders, placeholder do |placeholder_fields| %>
-	  <tr>
-	    <td><%= strip_tags placeholder.key %></td>
-	    <td><%= placeholder_fields.text_field :value %></td>
-	  </tr>
-	<% end %>
+    <% @placeholders.each do |placeholder| %>
+      <%= template_form.fields_for :placeholders, placeholder do |placeholder_fields| %>
+	<tr>
+	  <td><%= strip_tags placeholder.key %></td>
+	  <td><%= placeholder_fields.text_field :value %></td>
+	</tr>
       <% end %>
-    </tr>
+    <% end %>
   </table>
   <%= template_form.submit %>
 <% end %>

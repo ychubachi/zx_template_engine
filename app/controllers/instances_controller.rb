@@ -77,7 +77,7 @@ class InstancesController < ApplicationController
 
     respond_to do |format|
       if @instance.update_attributes(params[:instance])
-        format.html { redirect_to @instance, notice: 'Instance was successfully updated.' }
+        format.html { redirect_to template_instances_path(@template), notice: 'Instance was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

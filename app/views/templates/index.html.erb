@@ -3,18 +3,14 @@
 <table>
   <tr>
     <th><%= t 'activerecord.attributes.template.filename' %></th>
-    <!-- <th>Zip File Path</th> -->
     <th></th>
-    <!-- <th></th> -->
+    <th></th>
     <th></th>
   </tr>
 
   <% @templates.each do |template| %>
     <tr>
       <td><%= template.filename %></td>
-      <!-- <td><%= template.zip_file_path %></td> -->
-      <td><%= link_to t('view.navigations.show'), template %></td>
-      <!-- <td><%= link_to t('view.navigations.edit'), edit_template_path(template) %></td> -->
       <td><%= link_to t('activerecord.attributes.template.placeholders'),
 	      template_placeholders_path(template) %></td>
       <td><%= link_to t('activerecord.attributes.template.instances'),
