@@ -1,14 +1,38 @@
-body {
-  background-color: #fff;
-  color: #333;
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 18px; }
+/* http://colorschemedesigner.com/#0J324eTTxj-O9 */
+/* Palette color codes */
+/* Feel free to copy&paste color codes to your application */
+$primary-1: #FFCD88;
+$primary-2: #D7B483;
+$primary-3: #C79249;
+$primary-4: #FFE1B8;
+$primary-5: #FFF1DE;
 
-p, ol, ul, td {
-  font-family: verdana, arial, helvetica, sans-serif;
+$secondary-a-1: #A08CED;
+$secondary-a-2: #9183C8;
+$secondary-a-3: #624BB9;
+$secondary-a-4: #CABDFB;
+$secondary-a-5: #E4DEFB;
+
+$secondary-b-1: #81F099;
+$secondary-b-2: #7BCB8D;
+$secondary-b-3: #45BC5F;
+$secondary-b-4: #B6FCC5;
+$secondary-b-5: #DBFCE2;
+/* end */
+
+$width: 600px;
+
+@mixin fonts {
+  font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro',
+              'メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+}
+
+body {
+  @include fonts;  
+  color: black;
+  background-color: $primary-5;
   font-size: 13px;
-  line-height: 18px; }
+  width: $width; }
 
 pre {
   background-color: #eee;
@@ -16,16 +40,35 @@ pre {
   font-size: 11px; }
 
 a {
-  color: #000;
+  color: $secondary-b-3;
   &:visited {
-    color: #666; }
+    color: $secondary-b-3; }
   &:hover {
-    color: #fff;
-    background-color: #000; } }
+    color: $secondary-b-3;
+    background-color: $secondary-a-5; } }
 
 div {
   &.field, &.actions {
     margin-bottom: 10px; } }
+
+h1 {
+  background: $primary-3;
+  line-height: 30px;
+}
+
+table {
+  width: $width;
+}
+
+th {
+  color: $primary-3;
+  background: $primary-4;
+}
+
+td {
+  color: black;
+  background: $secondary-b-5;
+}
 
 #notice {
   color: green; }
