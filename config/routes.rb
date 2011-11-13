@@ -1,12 +1,9 @@
+# config/routes.rb
+# see http://guides.rubyonrails.org/routing.html
 ZxTemplateEngine::Application.routes.draw do
-  devise_for :users
-
-  root :to => 'home#index'
-#  root :to => 'templates#index'
-
   get "home/index"
   get "home/logout"
-
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   resources :placeholders
   resources :instances
   resources :values
@@ -19,4 +16,6 @@ ZxTemplateEngine::Application.routes.draw do
       end
     end
   end
+  root :to => 'home#index'
+#  root :to => 'templates#index'
 end
