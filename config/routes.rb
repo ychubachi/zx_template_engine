@@ -1,8 +1,8 @@
 ZxTemplateEngine::Application.routes.draw do
   devise_for :users
 
-#  root :to => 'home#index'
-  root :to => 'templates#index'
+  root :to => 'home#index'
+#  root :to => 'templates#index'
 
   get "home/index"
   get "home/logout"

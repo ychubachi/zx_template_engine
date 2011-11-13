@@ -38,4 +38,5 @@ end
 gem "rspec-rails", ">= 2.6.0", :group => [:development, :test]
 gem "i18n_generators", :group => :development
 
+gem 'haml-rails'
 gem 'devise'
