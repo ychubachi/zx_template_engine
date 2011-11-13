@@ -4,7 +4,8 @@ class TemplatesController < ApplicationController
   # GET /templates
   # GET /templates.json
   def index
-    @templates = Template.all
+    p current_user.id
+    @templates = Template.where('user_id = ?', current_user.id)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -42,8 +43,8 @@ class TemplatesController < ApplicationController
   # POST /templates
   # POST /templates.json
   def create
-    puts '*' * 80
     @template = Template.new(params[:template])
+    @template.user_id = current_user.id
 
     # Append placeholders to the template
     attachment = params[:attachment]

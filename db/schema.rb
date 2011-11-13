@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111113124733) do
+ActiveRecord::Schema.define(:version => 20111113151237) do
 
   create_table "instances", :force => true do |t|
     t.integer  "template_id"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20111113124733) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "zip_file_path"
+    t.integer  "user_id"
   end
 
   create_table "users", :force => true do |t|
