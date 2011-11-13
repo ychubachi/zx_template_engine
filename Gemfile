@@ -40,3 +40,6 @@ gem "i18n_generators", :group => :development
 
 gem 'haml-rails'
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-openid'
+gem 'oa-core'
