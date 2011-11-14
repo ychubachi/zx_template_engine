@@ -25,6 +25,8 @@ class ZipReplacer
   end
 
   def replace(file_path, replacements)
+    Rails.logger.debug("replace(file_path=#{file_path}, replacements=#{replacements})")
+
     unzip_dir = unzip_if_necessary(file_path)
 
     basename = File.basename(file_path)
@@ -47,6 +49,7 @@ class ZipReplacer
             File.open(file, 'r') do |input|
               input.each do |line|
                 replacements.each do |k,v|
+                  next if v == nil
                   placeholder = '#{' + k + '}'
                   if ! line.scan(/#{placeholder}/).empty?
                     line.gsub!(/#{placeholder}/, v)

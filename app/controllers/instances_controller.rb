@@ -120,7 +120,13 @@ class InstancesController < ApplicationController
     zip_file_path, count = zr.replace(@template.zip_file_path, replacements)
 
     # Move the file to the public dir
-    FileUtils.mv(zip_file_path, "#{::Rails.root.to_s}/public/generated/#{@instance.filename}")
+    public_file_path = "#{::Rails.root.to_s}/public/generated/#{@instance.filename}"
+    FileUtils.mv(zip_file_path, public_file_path)
     @download = "/generated/#{@instance.filename}"
+
+    # Sending an email
+    mailer = UserMailer.welcome_email(current_user)
+    mailer.attachments[@instance.filename] = File.read(public_file_path)
+    mailer.deliver
   end
 end
