@@ -86,7 +86,7 @@ class ZipReplacer
     FileUtils.mkdir_p(unzip_dir)
     FileUtils.cd(unzip_dir) do
       system("unzip #{tmp_file_path} > /dev/null")
-      raise 'File not found' if $?.to_i != 0
+      raise 'Could not unzip the file' if $?.to_i != 0
     end
 
     FileUtils.rm_rf(tmp_file_path)

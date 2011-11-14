@@ -4,11 +4,8 @@
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
   %body
     %h1
-      Welcome to zxt.chubachi.net, #{@user.email}
+      #{@user.email}さまが生成した文書
     %p
-      You have successfully signed up to zxt.chubachi.net,
-      your username is: #{@user.email}.
-      %br/
+      添付のファイルは，ご登録頂いた雛形を元に生成した文書です．
     %p
-      To login to the site, just follow this link: #{@url}.
-    %p Thanks for joining and have a great day!
+      #{@url}.

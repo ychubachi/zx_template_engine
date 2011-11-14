@@ -48,20 +48,32 @@ class TemplatesController < ApplicationController
 
     # Append placeholders to the template
     attachment = params[:attachment]
-    if attachment && template_file = attachment["file"]
-      @template.filename = template_file.original_filename	# ZxTemplate.xlsx
-      @template.zip_file_path = template_file.path		# /tmp/RackMultipart....
-      # Scan the file for parameters
-      zr = ZipReplacer.new('/tmp')
-      placeholders = zr.scan(template_file.path)
+    if !attachment
+      flash[:alert] = 'Please attach a template file.'
+      respond_to do |format|
+        format.html { render action: "new" }
+        format.json { render json: @template.errors, status: :unprocessable_entity }
+      end
+      return
+    end
+      
+    template_file = attachment["file"]
+    @template.filename = template_file.original_filename	# ZxTemplate.xlsx
+    @template.zip_file_path = template_file.path		# /tmp/RackMultipart....
+    # Scan the file for parameters
+    zr = ZipReplacer.new('/tmp')
+    placeholders = zr.scan(template_file.path)
+
+    if placeholders.empty?
+      flash[:alert] = 'The template has no placeholders.'
+    else
+      placeholders.each do |k,v|
+        @template.placeholders.create! :key => k, :value => v
+      end
     end
 
     respond_to do |format|
       if @template.save
-        placeholders.each do |k,v|
-          @template.placeholders.create! :key => k, :value => v
-        end
-        
         format.html { redirect_to @template, notice: 'Template was successfully created.' }
         format.json { render json: @template, status: :created, location: @template }
       else
@@ -70,6 +82,13 @@ class TemplatesController < ApplicationController
       end
     end
 
+  rescue => exc
+    logger.debug "rescued: #{exc}"
+    flash[:alert] = exc.to_s
+    respond_to do |format|
+      format.html { render action: "new"}
+      format.json { render json: @template.errors, status: :unprocessable_entity }
+    end
   end
 
   # PUT /templates/1

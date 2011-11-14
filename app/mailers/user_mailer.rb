@@ -4,6 +4,6 @@ class UserMailer < ActionMailer::Base
   def welcome_email(user)
     @user = user
     @url  = "http://zxt.chubachi.net/"
-    mail(:to => user.email, :subject => "Welcome to My Awesome Site")
+    mail(:to => user.email, :subject => "Zipped XML Template Engine")
   end
 end
