@@ -3,6 +3,7 @@ log/*.log
 tmp/
 .sass-cache/
 db/cstore
+db/production.sqlite3
 *~
 #*
 \.#*
