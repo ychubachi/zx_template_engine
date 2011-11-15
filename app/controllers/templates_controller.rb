@@ -43,46 +43,39 @@ class TemplatesController < ApplicationController
   # POST /templates
   # POST /templates.json
   def create
+    # Create a new template
     @template = Template.new(params[:template])
-    @template.user_id = current_user.id
 
-    # Append placeholders to the template
+    # Read attachment file
     attachment = params[:attachment]
-    if !attachment
-      flash[:alert] = 'Please attach a template file.'
-      respond_to do |format|
-        format.html { render action: "new" }
-        format.json { render json: @template.errors, status: :unprocessable_entity }
-      end
-      return
-    end
-      
-    template_file = attachment["file"]
-    @template.filename = template_file.original_filename	# ZxTemplate.xlsx
-    @template.zip_file_path = template_file.path		# /tmp/RackMultipart....
+    raise 'Please attach a template file.' if ! attachment
+    template_file = attachment['file']
+    raise 'Could not find a template file.' if ! template_file
+
     # Scan the file for parameters
     zr = ZipReplacer.new('/tmp')
     placeholders = zr.scan(template_file.path)
+    raise 'The template has no placeholders.' if placeholders.empty?
 
-    if placeholders.empty?
-      flash[:alert] = 'The template has no placeholders.'
-    else
-      placeholders.each do |k,v|
-        @template.placeholders.create! :key => k, :value => v
-      end
+    # Set attributes of the template
+    @template.user_id = current_user.id
+    @template.filename = template_file.original_filename	# ZxTemplate.xlsx
+    @template.zip_file_path = template_file.path		# /tmp/RackMultipart....
+    raise 'Could not save the template' if ! @template.save
+
+    # Create plaseholders
+    placeholders.each do |k,v|
+      @template.placeholders.create! :key => k, :value => v
     end
 
+    # Success
     respond_to do |format|
-      if @template.save
-        format.html { redirect_to @template, notice: 'Template was successfully created.' }
-        format.json { render json: @template, status: :created, location: @template }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @template.errors, status: :unprocessable_entity }
-      end
+      format.html { redirect_to @template, notice: 'Template was successfully created.' }
+      format.json { render json: @template, status: :created, location: @template }
     end
 
   rescue => exc
+    # Failure
     logger.debug "rescued: #{exc}"
     flash[:alert] = exc.to_s
     respond_to do |format|
