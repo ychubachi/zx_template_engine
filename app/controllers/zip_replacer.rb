@@ -1,8 +1,8 @@
 require 'find'
 
 class ZipReplacer
-  def initialize(tmp_dir)
-    @tmp_dir     = "#{tmp_dir}/zip_replacer"
+  def initialize
+    @tmp_dir = "#{Rails.root}/tmp/zip_replacer"
   end
 
   def scan(file_path)
@@ -85,7 +85,7 @@ class ZipReplacer
     FileUtils.rm_rf(unzip_dir) if File.exist?(unzip_dir)
     FileUtils.mkdir_p(unzip_dir)
     FileUtils.cd(unzip_dir) do
-      system("unzip #{tmp_file_path} > /dev/null")
+      system("unzip #{tmp_file_path}")
       raise 'Could not unzip the file' if $?.to_i != 0
     end
 

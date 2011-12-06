@@ -53,7 +53,7 @@ class TemplatesController < ApplicationController
     raise 'Could not find a template file.' if ! template_file
 
     # Scan the file for parameters
-    zr = ZipReplacer.new('/tmp')
+    zr = ZipReplacer.new
     placeholders = zr.scan(template_file.path)
     raise 'The template has no placeholders.' if placeholders.empty?
 

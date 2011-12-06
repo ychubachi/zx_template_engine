@@ -108,7 +108,7 @@ class InstancesController < ApplicationController
     @instance = Instance.find(params[:id])
 
     # Replace the placeholders
-    zr = ZipReplacer.new('/tmp')
+    zr = ZipReplacer.new
 
     # Generate replacements' key and value pairs.  Then, replace them
     replacements = {}
@@ -120,7 +120,11 @@ class InstancesController < ApplicationController
     zip_file_path, count = zr.replace(@template.zip_file_path, replacements)
 
     # Move the file to the public dir
-    public_file_path = "#{::Rails.root.to_s}/public/generated/#{@instance.filename}"
+    generated_file_dir = "#{::Rails.root.to_s}/public/generated"
+    if ! File.exist?(generated_file_dir)
+      FileUtils.mkdir(generated_file_dir)
+    end
+    public_file_path = "#{generated_file_dir}/#{@instance.filename}"
     FileUtils.mv(zip_file_path, public_file_path)
     @download = "/generated/#{@instance.filename}"
 
