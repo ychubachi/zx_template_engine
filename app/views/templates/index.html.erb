@@ -10,7 +10,7 @@
 
   <% @templates.each do |template| %>
     <tr>
-      <td><%= template.filename %></td>
+      <td><%= File.basename(template.zip_file.current_path) %></td>
       <td><%= link_to t('activerecord.attributes.template.placeholders'),
 	      template_placeholders_path(template) %></td>
       <td><%= link_to t('activerecord.attributes.template.instances'),

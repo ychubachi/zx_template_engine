@@ -1,4 +1,5 @@
-require 'zip_replacer'
+# -*- coding: utf-8 -*-
+# require 'zip_replacer'
 
 class TemplatesController < ApplicationController
   # GET /templates
@@ -47,20 +48,20 @@ class TemplatesController < ApplicationController
     @template = Template.new(params[:template])
 
     # Read attachment file
-    attachment = params[:attachment]
-    raise 'Please attach a template file.' if ! attachment
-    template_file = attachment['file']
-    raise 'Could not find a template file.' if ! template_file
+    raise 'Please attach a template file.' if ! @template.zip_file
+#    @template.filename = @template.zip_file.filename
 
     # Scan the file for parameters
     zr = ZipReplacer.new
-    placeholders = zr.scan(template_file.path)
+    path = @template.zip_file.current_path
+    path.force_encoding('UTF-8')
+    p 'path=' + path
+    p 'path.encode=' + path.encoding.to_s
+    placeholders = zr.scan(path)
     raise 'The template has no placeholders.' if placeholders.empty?
 
     # Set attributes of the template
     @template.user_id = current_user.id
-    @template.filename = template_file.original_filename	# ZxTemplate.xlsx
-    @template.zip_file_path = template_file.path		# /tmp/RackMultipart....
     raise 'Could not save the template' if ! @template.save
 
     # Create plaseholders
@@ -74,14 +75,14 @@ class TemplatesController < ApplicationController
       format.json { render json: @template, status: :created, location: @template }
     end
 
-  rescue => exc
-    # Failure
-    logger.debug "rescued: #{exc}"
-    flash[:alert] = exc.to_s
-    respond_to do |format|
-      format.html { render action: "new"}
-      format.json { render json: @template.errors, status: :unprocessable_entity }
-    end
+  # rescue => exc
+  #   # Failure
+  #   logger.debug "rescued: #{exc}"
+  #   flash[:alert] = exc.to_s
+  #   respond_to do |format|
+  #     format.html { render action: "new"}
+  #     format.json { render json: @template.errors, status: :unprocessable_entity }
+  #   end
   end
 
   # PUT /templates/1
@@ -104,6 +105,7 @@ class TemplatesController < ApplicationController
   # DELETE /templates/1.json
   def destroy
     @template = Template.find(params[:id])
+    @template.remove_zip_file!
     @template.destroy
 
     respond_to do |format|

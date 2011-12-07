@@ -1,13 +1,19 @@
 require 'find'
 
+# UTF-8
+Encoding.default_external = Encoding::UTF_8
+Encoding.default_internal = Encoding::UTF_8
+
 class ZipReplacer
   def initialize
     @tmp_dir = "#{Rails.root}/tmp/zip_replacer"
   end
 
   def scan(file_path)
-    unzip_dir = unzip_if_necessary(file_path)
+    # unzip
+    unzip_dir = unzip(file_path)
 
+    # scan for placeholders
     placeholders = []
     Find.find(unzip_dir) do |file|
       if File.file?(file) && !File.extname(file).eql?('.bin')
@@ -21,6 +27,10 @@ class ZipReplacer
         end
       end
     end
+
+    # clean up
+    FileUtils.rm_rf(unzip_dir)
+
     return placeholders
   end
 

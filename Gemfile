@@ -45,3 +45,4 @@ gem 'omniauth-openid'
 gem 'oa-core'
 
 gem 'log4r'
+gem 'carrierwave'
