@@ -1,0 +1,13 @@
+%h1= t 'view.value.index'
+/= form_for @instance, url: template_instance_path(@template, @instance) do |instance_form|
+= form_for [@template, @instance] do |instance_form|
+  %table
+    %tr
+      %th= t 'activerecord.attributes.value.key'
+      %th= t 'activerecord.attributes.value.value'
+    - @values.each do |value|
+      = instance_form.fields_for :values, value do |value_fields|
+        %tr
+          %td= value.placeholder.key
+          %td= value_fields.text_field :value
+  = instance_form.submit

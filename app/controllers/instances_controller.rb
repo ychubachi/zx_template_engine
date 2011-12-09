@@ -29,6 +29,7 @@ class InstancesController < ApplicationController
   def new
     @template = Template.find(params[:template_id])
     @instance = Instance.new
+    @instance.template = @template
 
     day = Date.today
     @instance.filename = "#{day} #{@template.basename}"
@@ -64,7 +65,7 @@ class InstancesController < ApplicationController
           value.save
         end
         
-        format.html { redirect_to template_instances_path(@template),
+        format.html { redirect_to template_instance_values_path(@template, @instance),
           notice: 'Instance was successfully created.' }
         format.json { render json: @instance, status: :created, location: @instance }
       else

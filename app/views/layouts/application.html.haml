@@ -15,6 +15,10 @@
         = link_to('Logout', destroy_user_session_path, :method=>'delete')
       %nav
         %button= link_to('雛形一覧', templates_path)
+        - if @instance
+          %button= link_to('生成文書一覧', template_instances_path(@instance.template))
+          - if ! @instance.new_record? and ! @values
+            %button= link_to('値一覧', template_instance_values_path(@instance.template, @instance))
     %article
       = yield
     %footer

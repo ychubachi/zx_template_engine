@@ -1,0 +1,22 @@
+%h1= t 'view.instance.index'
+%button= link_to t('view.instance.new'), new_template_instance_path(@template)
+%table
+  %tr
+    %th= t 'activerecord.attributes.template.filename'
+    %th= t 'activerecord.attributes.instance.filename'
+    %th
+    %th
+    %th
+    %th
+  - @instances.each do |instance|
+    %tr
+      %td= instance.template.basename
+      %td= instance.filename
+      %td= link_to t('view.navigations.edit'), |
+        edit_template_instance_path(@template, instance)
+      %td= link_to t('activerecord.attributes.instance.values'), |
+        template_instance_values_path(@template, instance)
+      %td= link_to t('view.instance.generate'), |
+        generate_template_instance_path(@template, instance)
+      %td= link_to t('view.navigations.destroy'), |
+        template_instance_path(@template, instance), confirm: 'Are you sure?', method: :delete

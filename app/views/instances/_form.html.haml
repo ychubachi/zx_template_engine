@@ -1,0 +1,17 @@
+= form_for([@template, @instance]) do |f|
+  - if @instance.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@instance.errors.count, "error")
+        prohibited this instance from being saved:
+      %ul
+        - @instance.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = t 'activerecord.attributes.template.filename'
+    = @template.basename
+  .field
+    = f.label :filename
+    = f.text_field :filename
+  .actions
+    = f.submit

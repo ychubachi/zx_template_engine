@@ -1,0 +1,12 @@
+%h1= t 'view.placeholder.index'
+= form_for @template do |template_form|
+  %table
+    %tr
+      %th= t 'activerecord.attributes.placeholder.key'
+      %th= t 'activerecord.attributes.placeholder.value'
+    - @placeholders.each do |placeholder|
+      = template_form.fields_for :placeholders, placeholder do |placeholder_fields|
+        %tr
+          %td= strip_tags placeholder.key
+          %td= placeholder_fields.text_field :value
+  = template_form.submit
