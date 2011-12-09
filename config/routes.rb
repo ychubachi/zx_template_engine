@@ -14,8 +14,5 @@ ZxTemplateEngine::Application.routes.draw do
       end
     end
   end
-#  get "home/index"
-#  get "home/logout"
-#  root :to => 'home#index'
   root :to => 'templates#index'
 end

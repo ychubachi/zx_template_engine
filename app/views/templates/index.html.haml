@@ -1,0 +1,19 @@
+%h1= t 'view.template.index'
+%button= link_to t('view.template.new'), new_template_path
+%table
+  %tr
+    %th= t 'activerecord.attributes.template.filename'
+    %th
+    %th
+    %th
+  - @templates.each do |template|
+    %tr
+      %td= File.basename(template.zip_file.current_path)
+      %td= link_to t('activerecord.attributes.template.placeholders'), |
+        template_placeholders_path(template)
+      %td= link_to t('activerecord.attributes.template.instances'), |
+        template_instances_path(template)
+      %td= link_to t('view.navigations.destroy'), template, |
+        confirm: 'Are you sure?', method: :delete
+
+%br/

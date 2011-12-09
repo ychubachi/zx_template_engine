@@ -64,18 +64,19 @@ class TemplatesController < ApplicationController
 
     # Success
     respond_to do |format|
-      format.html { redirect_to @template, notice: 'Template was successfully created.' }
+      format.html { redirect_to template_placeholders_path(@template),
+        notice: 'Template was successfully created.' }
       format.json { render json: @template, status: :created, location: @template }
     end
 
-  # rescue => exc
-  #   # Failure
-  #   logger.debug "rescued: #{exc}"
-  #   flash[:alert] = exc.to_s
-  #   respond_to do |format|
-  #     format.html { render action: "new"}
-  #     format.json { render json: @template.errors, status: :unprocessable_entity }
-  #   end
+  rescue => exc
+    # Failure
+    logger.debug "rescued: #{exc}"
+    flash[:alert] = exc.to_s
+    respond_to do |format|
+      format.html { render action: "new"}
+      format.json { render json: @template.errors, status: :unprocessable_entity }
+    end
   end
 
   # PUT /templates/1

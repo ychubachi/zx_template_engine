@@ -23,7 +23,7 @@ class ZipReplacer
       if File.file?(file) && !File.extname(file).eql?('.bin')
         File.open(file) do |f|
           f.each() do |line|
-            line.scan(/【(.*?)】/) {
+            line.scan(/#\{(.*?)\}/) {				# PLACEHOLDER
               placeholder = $1
               p 'placeholder=' + placeholder
               p 'encode=' + placeholder.encoding.to_s 
@@ -68,7 +68,7 @@ class ZipReplacer
                   next if v == nil
                   p 'k.encode=' + k.encoding.to_s 
                   p 'k.encode=' + v.encoding.to_s 
-                  placeholder = '【' + k + '】'
+                  placeholder = '#{' + k + '}'			# PLACEHOLDER
                   p 'placeholder.encoding=' + placeholder.encoding.to_s
                   if ! line.scan(/#{placeholder}/).empty?
                     line.gsub!(/#{placeholder}/, v)
