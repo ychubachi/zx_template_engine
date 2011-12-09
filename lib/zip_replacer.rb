@@ -25,8 +25,6 @@ class ZipReplacer
           f.each() do |line|
             line.scan(/#\{(.*?)\}/) {				# PLACEHOLDER
               placeholder = $1
-              p 'placeholder=' + placeholder
-              p 'encode=' + placeholder.encoding.to_s 
               placeholders << placeholder
             }
           end
@@ -66,10 +64,7 @@ class ZipReplacer
               input.each do |line|
                 replacements.each do |k,v|
                   next if v == nil
-                  p 'k.encode=' + k.encoding.to_s 
-                  p 'k.encode=' + v.encoding.to_s 
                   placeholder = '#{' + k + '}'			# PLACEHOLDER
-                  p 'placeholder.encoding=' + placeholder.encoding.to_s
                   if ! line.scan(/#{placeholder}/).empty?
                     line.gsub!(/#{placeholder}/, v)
                   end

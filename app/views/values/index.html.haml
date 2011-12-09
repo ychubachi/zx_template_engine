@@ -8,6 +8,6 @@
     - @values.each do |value|
       = instance_form.fields_for :values, value do |value_fields|
         %tr
-          %td= value.placeholder.key
+          %td= strip_tags value.placeholder.key
           %td= value_fields.text_field :value
   = instance_form.submit
