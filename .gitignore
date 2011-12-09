@@ -7,5 +7,6 @@ db/production.sqlite3
 *~
 #*
 \.#*
+public/uploads/
 public/generated/
 public/assets/
