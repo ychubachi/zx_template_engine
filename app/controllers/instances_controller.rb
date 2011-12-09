@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class InstancesController < ApplicationController
   # GET /instances
   # GET /instances.json
@@ -30,7 +31,7 @@ class InstancesController < ApplicationController
     @instance = Instance.new
 
     day = Date.today
-    @instance.filename = "#{day} #{@template.filename}"
+    @instance.filename = "#{day} #{@template.basename}"
 
     respond_to do |format|
       format.html # new.html.erb
@@ -103,21 +104,27 @@ class InstancesController < ApplicationController
     end
   end
 
+  # GET /instances/1.generate
   def generate
     @template = Template.find(params[:template_id])
     @instance = Instance.find(params[:id])
 
-    # Replace the placeholders
-    zr = ZipReplacer.new
-
-    # Generate replacements' key and value pairs.  Then, replace them
+    # Generate replacements by getting key and value pairs from placeholder.
     replacements = {}
     @instance.values.each do |value|
-      key = value.placeholder.key
-      value = value.value
+      key = value.placeholder.key # </w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>請求月</w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>
+      logger.debug 'key = ' + key
+      striped_key = key.gsub(/<[^>]*>/ui,'') # "請求月"
+      text_value = value.value # "1"
+      value = key.gsub(/#{striped_key}/, text_value) # </w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>1</w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>
+      logger.debug 'key = ' + key
+      logger.debug 'value = ' + value
       replacements[key] = value
     end
-    zip_file_path, count = zr.replace(@template.zip_file_path, replacements)
+
+    # Replace the placeholders
+    zr = ZipReplacer.new
+    zip_file_path = zr.replace(@template.zip_file.current_path, replacements)
 
     # Move the file to the public dir
     generated_file_dir = "#{::Rails.root.to_s}/public/generated"

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# require 'zip_replacer'
 
 class TemplatesController < ApplicationController
   # GET /templates
@@ -46,18 +45,12 @@ class TemplatesController < ApplicationController
   def create
     # Create a new template
     @template = Template.new(params[:template])
-
-    # Read attachment file
     raise 'Please attach a template file.' if ! @template.zip_file
-#    @template.filename = @template.zip_file.filename
+    @template.basename = File.basename(@template.zip_file.current_path)
 
     # Scan the file for parameters
     zr = ZipReplacer.new
-    path = @template.zip_file.current_path
-    path.force_encoding('UTF-8')
-    p 'path=' + path
-    p 'path.encode=' + path.encoding.to_s
-    placeholders = zr.scan(path)
+    placeholders = zr.scan(@template.zip_file.current_path)
     raise 'The template has no placeholders.' if placeholders.empty?
 
     # Set attributes of the template

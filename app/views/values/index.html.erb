@@ -10,7 +10,7 @@
     <% @values.each do |value| %>
       <%= instance_form.fields_for :values, value do |value_fields| %>
 	<tr>
-	  <td><%= strip_tags value.placeholder.key %></td>
+	  <td><%= value.placeholder.key %></td>
 	  <td><%= value_fields.text_field :value %> </td>
 	</tr>
       <% end %>

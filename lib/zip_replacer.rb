@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'find'
 
 # UTF-8
@@ -10,6 +11,9 @@ class ZipReplacer
   end
 
   def scan(file_path)
+    # UTF-8
+    file_path.force_encoding('UTF-8')
+
     # unzip
     unzip_dir = unzip(file_path)
 
@@ -19,8 +23,10 @@ class ZipReplacer
       if File.file?(file) && !File.extname(file).eql?('.bin')
         File.open(file) do |f|
           f.each() do |line|
-            line.scan(/#\{(.*?)\}/) {
+            line.scan(/【(.*?)】/) {
               placeholder = $1
+              p 'placeholder=' + placeholder
+              p 'encode=' + placeholder.encoding.to_s 
               placeholders << placeholder
             }
           end
@@ -30,19 +36,19 @@ class ZipReplacer
 
     # clean up
     FileUtils.rm_rf(unzip_dir)
-
     return placeholders
   end
 
   def replace(file_path, replacements)
-    Rails.logger.debug("replace(file_path=#{file_path}, replacements=#{replacements})")
+    # UTF-8
+    file_path.force_encoding('UTF-8')
 
-    unzip_dir = unzip_if_necessary(file_path)
+    # unzip
+    unzip_dir = unzip(file_path)
 
     basename = File.basename(file_path)
     replace_dir = "#{@tmp_dir}/replaced/#{basename}"
 
-    count = 0
     FileUtils.cd(unzip_dir) do
       Find.find('.').each do |file|
         next if not File.file?(file)
@@ -60,10 +66,12 @@ class ZipReplacer
               input.each do |line|
                 replacements.each do |k,v|
                   next if v == nil
-                  placeholder = '#{' + k + '}'
+                  p 'k.encode=' + k.encoding.to_s 
+                  p 'k.encode=' + v.encoding.to_s 
+                  placeholder = '【' + k + '】'
+                  p 'placeholder.encoding=' + placeholder.encoding.to_s
                   if ! line.scan(/#{placeholder}/).empty?
                     line.gsub!(/#{placeholder}/, v)
-                    count += 1
                   end
                 end
                 output << line
@@ -74,8 +82,14 @@ class ZipReplacer
       end
     end
 
+    # zip again
     zip_file_path = zip(replace_dir)
-    return zip_file_path, count
+
+    # clean up
+    FileUtils.rm_rf(unzip_dir)
+    FileUtils.rm_rf(replace_dir)
+
+    return zip_file_path
   end
   
   private

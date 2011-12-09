@@ -7,10 +7,6 @@ class TemplateUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
+  # White-list for filenames
   CarrierWave::SanitizedFile.sanitize_regexp = /[^[:word:]\.\-\+]/
-
-  # def filename
-  #   utf8 = original_filename
-  #   utf8.force_encoding('UTF-8')
-  # end
 end

@@ -22,7 +22,6 @@ module ZxTemplateEngine
     # Plus, do not 'require' them. why?
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
-    puts config.autoload_paths.to_yaml
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.

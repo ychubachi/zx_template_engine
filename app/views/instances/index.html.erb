@@ -12,7 +12,7 @@
 
 <% @instances.each do |instance| %>
   <tr>
-    <td><%= instance.template.filename %></td>
+    <td><%= instance.template.basename %></td>
     <td><%= instance.filename %></td>
     <td><%= link_to t('view.navigations.edit'),
 	    edit_template_instance_path(@template, instance) %></td>
