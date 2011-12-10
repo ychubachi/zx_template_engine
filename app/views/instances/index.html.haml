@@ -1,5 +1,5 @@
 %h1= t 'view.instance.index'
-%button= link_to t('view.instance.new'), new_instance_path
+%button= link_to t('view.instance.new'), new_template_instance_path(@template)
 %table
   %tr
     %th= t 'activerecord.attributes.template.filename'

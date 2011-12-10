@@ -8,5 +8,5 @@
       = template_form.fields_for :placeholders, placeholder do |placeholder_fields|
         %tr
           %td= strip_tags placeholder.key
-          %td= placeholder_fields.text_field :value
+          %td= placeholder_fields.text_area :value, cols: 40, rows: 1
   = template_form.submit
