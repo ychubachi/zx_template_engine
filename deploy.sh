@@ -4,3 +4,6 @@ git checkout master
 git merge work
 git push origin master
 
+
+git checkout work
+
