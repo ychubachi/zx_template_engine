@@ -22,10 +22,6 @@ namespace :deploy do
     Creates synlinks for this application.
   DESC
   task :mylinks, :roles => :app do
-    # DB
-    src = File.join(deploy_to, 'shared', 'db', 'production.sqlite3')
-    dst = File.join(current_path,'db')
-    run "ln -s #{src} #{dst}"
     # Uploads
     src = File.join(deploy_to, 'shared', 'uploads')
     dst = File.join(current_path,'public')
