@@ -3,7 +3,6 @@ class InstancesController < ApplicationController
   # GET /instances
   # GET /instances.json
   def index
-    @template = Template.find(params[:template_id])
     @instances = Instance.where(:template_id => params[:template_id])
 
     respond_to do |format|
@@ -15,7 +14,6 @@ class InstancesController < ApplicationController
   # GET /instances/1
   # GET /instances/1.json
   def show
-    @template = Template.find(params[:template_id])
     @instance = Instance.find(params[:id])
 
     respond_to do |format|
@@ -42,7 +40,6 @@ class InstancesController < ApplicationController
 
   # GET /instances/1/edit
   def edit
-    @template = Template.find(params[:template_id])
     @instance = Instance.find(params[:id])
   end
 
@@ -78,12 +75,11 @@ class InstancesController < ApplicationController
   # PUT /instances/1
   # PUT /instances/1.json
   def update
-    @template = Template.find(params[:template_id])
     @instance = Instance.find(params[:id])
 
     respond_to do |format|
       if @instance.update_attributes(params[:instance])
-        format.html { redirect_to template_instances_path(@template), notice: 'Instance was successfully updated.' }
+        format.html { redirect_to template_instances_path(@instance.template), notice: 'Instance was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -95,19 +91,18 @@ class InstancesController < ApplicationController
   # DELETE /instances/1
   # DELETE /instances/1.json
   def destroy
-    @template = Template.find(params[:template_id])
     @instance = Instance.find(params[:id])
+    template = @instance.template
     @instance.destroy
 
     respond_to do |format|
-      format.html { redirect_to template_instances_path(@template) }
+      format.html { redirect_to template_instances_path(template) }
       format.json { head :ok }
     end
   end
 
   # GET /instances/1.generate
   def generate
-    @template = Template.find(params[:template_id])
     @instance = Instance.find(params[:id])
 
     # Generate replacements by getting key and value pairs from placeholder.
@@ -125,7 +120,7 @@ class InstancesController < ApplicationController
 
     # Replace the placeholders
     zr = ZipReplacer.new
-    zip_file_path = zr.replace(@template.zip_file.current_path, replacements)
+    zip_file_path = zr.replace(@instance.template.zip_file.current_path, replacements)
 
     # Move the file to the public dir
     generated_file_dir = "#{::Rails.root.to_s}/public/generated"
@@ -135,6 +130,12 @@ class InstancesController < ApplicationController
     public_file_path = "#{generated_file_dir}/#{@instance.filename}"
     FileUtils.mv(zip_file_path, public_file_path)
     @download = "/generated/#{@instance.filename}"
+  end
+
+  def email
+    @instance = Instance.find(params[:id])
+
+    public_file_path = File.join(Rails.root.to_s, 'public', 'generated', @instance.filename)
 
     # Sending an email
     mailer = UserMailer.welcome_email(current_user)

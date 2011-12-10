@@ -1,4 +1,4 @@
-= form_for([@template, @instance]) do |f|
+= form_for(@instance) do |f|
   - if @instance.errors.any?
     #error_explanation
       %h2
@@ -9,7 +9,7 @@
           %li= msg
   .field
     = t 'activerecord.attributes.template.filename'
-    = @template.basename
+    = @instance.template.basename
   .field
     = f.label :filename
     = f.text_field :filename

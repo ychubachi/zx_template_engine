@@ -2,7 +2,6 @@ class ValuesController < ApplicationController
   # GET /values
   # GET /values.json
   def index
-    @template = Template.find(params[:template_id])
     @instance = Instance.find(params[:instance_id])
     @values = Value.where(instance_id: params[:instance_id])
 
@@ -15,7 +14,6 @@ class ValuesController < ApplicationController
   # GET /values/1
   # GET /values/1.json
   def show
-    @template = Template.find(params[:template_id])
     @instance = Instance.find(params[:instance_id])
     @value = Value.find(params[:id])
 
@@ -28,7 +26,6 @@ class ValuesController < ApplicationController
   # GET /values/new
   # GET /values/new.json
   def new
-    @template = Template.find(params[:template_id])
     @instance = Instance.find(params[:instance_id])
     @value = Value.new
 
@@ -40,7 +37,6 @@ class ValuesController < ApplicationController
 
   # GET /values/1/edit
   def edit
-    @template = Template.find(params[:template_id])
     @instance = Instance.find(params[:instance_id])
     @value = Value.find(params[:id])
   end
@@ -66,13 +62,12 @@ class ValuesController < ApplicationController
   # PUT /values/1
   # PUT /values/1.json
   def update
-    @template = Template.find(params[:template_id])
     @instance = Instance.find(params[:instance_id])
     @value = Value.find(params[:id])
 
     respond_to do |format|
       if @value.update_attributes(params[:value])
-        format.html { redirect_to template_instance_values_path(@template, @instance), notice: 'Value was successfully updated.' }
+        format.html { redirect_to instance_values_path(@instance), notice: 'Value was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

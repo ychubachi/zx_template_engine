@@ -1,2 +1,4 @@
 %h1= t 'view.instance.generate'
-%p= link_to @instance.filename, @download
+= link_to @instance.filename, @download
+
+%button= link_to 'メール送信', email_instance_path(@instance)
