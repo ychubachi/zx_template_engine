@@ -22,6 +22,7 @@ namespace :deploy do
     My setup
   DESC
   task :mysetup, :roles => :app do
+    setup
     src = File.join(deploy_to, 'shared', 'uploads')
     run "mkdir #{src}"
     src = File.join(deploy_to, 'shared', 'generated')
@@ -30,9 +31,6 @@ namespace :deploy do
     run "mkdir #{src}"
   end
 
-  desc <<-DESC
-    Creates synlinks for this application.
-  DESC
   task :mylinks, :roles => :app do
     # Uploads
     src = File.join(deploy_to, 'shared', 'uploads')
@@ -48,7 +46,7 @@ namespace :deploy do
     Deploy everything. This will work similarly to the 'migrations' task, 
     but will create the application symlinks.
   DESC
-  task :all do
+  task :mydeploy do
     set :migrate_target, :latest
     update_code
     symlink
