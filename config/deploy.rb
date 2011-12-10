@@ -19,6 +19,18 @@ end
 
 namespace :deploy do
   desc <<-DESC
+    My setup
+  DESC
+  task :mysetup, :roles => :app do
+    src = File.join(deploy_to, 'shared', 'uploads')
+    run "mkdir #{src}"
+    src = File.join(deploy_to, 'shared', 'generated')
+    run "mkdir #{src}"
+    src = File.join(deploy_to, 'shared', 'db')
+    run "mkdir #{src}"
+  end
+
+  desc <<-DESC
     Creates synlinks for this application.
   DESC
   task :mylinks, :roles => :app do
