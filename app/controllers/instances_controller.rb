@@ -62,7 +62,7 @@ class InstancesController < ApplicationController
           value.save
         end
         
-        format.html { redirect_to template_instance_values_path(@template, @instance),
+        format.html { redirect_to instance_values_path(@instance),
           notice: 'Instance was successfully created.' }
         format.json { render json: @instance, status: :created, location: @instance }
       else
