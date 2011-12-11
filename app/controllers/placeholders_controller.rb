@@ -5,6 +5,29 @@ class PlaceholdersController < ApplicationController
     @template = Template.find(params[:template_id])
     @placeholders = Placeholder.where(:template_id => params[:template_id])
 
+    groups = {}
+    @placeholders.each do |p|
+      key = p.key
+      m = key.match(/([A-Z])([0-9]*)\.(.*)/)
+      group  = m[1]
+      number = m[2]
+      label  = m[3]
+      if groups[group] == nil
+        groups[group] = [[number, label]]
+      else
+        groups[group] << [number, label]
+      end
+    end
+    puts groups
+
+
+    puts '=' * 72
+    groups.each do |g|
+      puts 'group=' + g[0].to_s
+      puts 'placeholders=' + g[1].to_s
+      puts '-' * 8
+    end
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @placeholders }
