@@ -67,11 +67,7 @@ class ZipReplacer
                   next if v == nil
                   placeholder = '#{' + k + '}'	# PLACEHOLDER
                   if ! line.scan(/#{placeholder}/).empty?
-                    puts 'found'
-                    puts 'v=' + v
-                    puts 'p=' + placeholder
                     line.gsub!(/#{placeholder}/, v)
-                    # puts line
                   end
                 end
                 output << line
@@ -139,10 +135,7 @@ end
 
 =begin
       key = value.placeholder.key # </w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>請求月</w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>
-      logger.debug 'key = ' + key
       striped_key = key.gsub(/<[^>]*>/ui,'') # "請求月"
       text_value = value.value # "1"
       value = key.gsub(/#{striped_key}/, text_value) # </w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>1</w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>
-      logger.debug 'key = ' + key
-      logger.debug 'value = ' + value
 =end

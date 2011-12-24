@@ -3,7 +3,6 @@ module GroupingHelper
   # They will be grouped like followings:
   #   {"A"=>[<address>], "B"=>[<name>,<zip>]}
   def grouping(values)
-    puts values.to_yaml
     groups = {}
     values.each do |item|
       key = yield item

@@ -54,7 +54,6 @@ class InstancesController < ApplicationController
       if @instance.save
 
         @template.placeholders.each do |placeholder|
-          puts placeholder
           value = Value.new
           value.instance_id = @instance.id
           value.placeholder_id = placeholder.id
