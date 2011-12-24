@@ -23,7 +23,7 @@ class ZipReplacer
       if File.file?(file) && !File.extname(file).eql?('.bin')
         File.open(file) do |f|
           f.each() do |line|
-            line.scan(/#\{(.*?)\}/) {				# PLACEHOLDER
+            line.scan(/#\{(.*?)\}/) {		# PLACEHOLDER
               placeholder = $1
               placeholders << placeholder
             }
@@ -34,6 +34,7 @@ class ZipReplacer
 
     # clean up
     FileUtils.rm_rf(unzip_dir)
+
     return placeholders
   end
 
@@ -63,8 +64,9 @@ class ZipReplacer
             File.open(file, 'r') do |input|
               input.each do |line|
                 replacements.each do |k,v|
+                  puts k
                   next if v == nil
-                  placeholder = '#{' + k + '}'			# PLACEHOLDER
+                  placeholder = '#{' + k + '}'	# PLACEHOLDER
                   if ! line.scan(/#{placeholder}/).empty?
                     line.gsub!(/#{placeholder}/, v)
                   end
