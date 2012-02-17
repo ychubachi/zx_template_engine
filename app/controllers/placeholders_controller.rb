@@ -1,32 +1,9 @@
 class PlaceholdersController < ApplicationController
-  # GET /placeholders
+
   # GET /placeholders.json
   def index
     @template = Template.find(params[:template_id])
     @placeholders = Placeholder.where(:template_id => params[:template_id])
-
-    groups = {}
-    @placeholders.each do |p|
-      key = p.key
-      m = key.match(/([A-Z])([0-9]*)\.(.*)/)
-      group  = m[1]
-      number = m[2]
-      label  = m[3]
-      if groups[group] == nil
-        groups = {group: group, placeholder: {}}
-      else
-        groups[:placeholder] << {key: p.key, number: p.number, label: p.label}
-      end
-    end
-    puts groups
-
-
-    puts '=' * 72
-    groups.each do |g|
-      puts 'group=' + g[0].to_s
-      puts 'placeholders=' + g[1].to_s
-      puts '-' * 8
-    end
 
     respond_to do |format|
       format.html # index.html.erb

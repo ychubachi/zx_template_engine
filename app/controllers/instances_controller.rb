@@ -54,7 +54,6 @@ class InstancesController < ApplicationController
       if @instance.save
 
         @template.placeholders.each do |placeholder|
-          puts placeholder
           value = Value.new
           value.instance_id = @instance.id
           value.placeholder_id = placeholder.id
@@ -108,13 +107,8 @@ class InstancesController < ApplicationController
     # Generate replacements by getting key and value pairs from placeholder.
     replacements = {}
     @instance.values.each do |value|
-      key = value.placeholder.key # </w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>請求月</w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>
-      logger.debug 'key = ' + key
-      striped_key = key.gsub(/<[^>]*>/ui,'') # "請求月"
-      text_value = value.value # "1"
-      value = key.gsub(/#{striped_key}/, text_value) # </w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>1</w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>
-      logger.debug 'key = ' + key
-      logger.debug 'value = ' + value
+      key = value.placeholder.key
+      value = value.value
       replacements[key] = value
     end
 

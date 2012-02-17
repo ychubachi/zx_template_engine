@@ -23,7 +23,7 @@ class ZipReplacer
       if File.file?(file) && !File.extname(file).eql?('.bin')
         File.open(file) do |f|
           f.each() do |line|
-            line.scan(/#\{(.*?)\}/) {				# PLACEHOLDER
+            line.scan(/#\{(.*?)\}/) {		# PLACEHOLDER
               placeholder = $1
               placeholders << placeholder
             }
@@ -34,6 +34,7 @@ class ZipReplacer
 
     # clean up
     FileUtils.rm_rf(unzip_dir)
+
     return placeholders
   end
 
@@ -64,7 +65,7 @@ class ZipReplacer
               input.each do |line|
                 replacements.each do |k,v|
                   next if v == nil
-                  placeholder = '#{' + k + '}'			# PLACEHOLDER
+                  placeholder = '#{' + k + '}'	# PLACEHOLDER
                   if ! line.scan(/#{placeholder}/).empty?
                     line.gsub!(/#{placeholder}/, v)
                   end
@@ -86,7 +87,7 @@ class ZipReplacer
 
     return zip_file_path
   end
-  
+
   private
 
   def unzip(file_path)
@@ -131,3 +132,10 @@ class ZipReplacer
     return unzip_dir
   end
 end
+
+=begin
+      key = value.placeholder.key # </w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>請求月</w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>
+      striped_key = key.gsub(/<[^>]*>/ui,'') # "請求月"
+      text_value = value.value # "1"
+      value = key.gsub(/#{striped_key}/, text_value) # </w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>1</w:t></w:r><w:r w:rsidR="002F6123"><w:rPr><w:rFonts w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>
+=end
