@@ -13,9 +13,9 @@ class PlaceholdersController < ApplicationController
       number = m[2]
       label  = m[3]
       if groups[group] == nil
-        groups[group] = [[number, label]]
+        groups = {group: group, placeholder: {}}
       else
-        groups[group] << [number, label]
+        groups[:placeholder] << {key: p.key, number: p.number, label: p.label}
       end
     end
     puts groups
